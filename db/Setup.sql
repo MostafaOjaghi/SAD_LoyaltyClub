@@ -1,5 +1,5 @@
 
-create database Loyality_System_DB;
+create database IF NOT EXISTS Loyality_System_DB;
 
 CREATE TABLE IF NOT EXISTS costumer
 (
