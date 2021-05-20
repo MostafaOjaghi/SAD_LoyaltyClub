@@ -11,56 +11,60 @@ Original file is located at
 
 import mysql.connector
 
-mydb = mysql.connector.connect(
-    host="localhost",
-    user="root",
-    password="MYSQL1378"  
-)
 
-mycursor = mydb.cursor()
-mycursor.execute("SHOW DATABASES")
-
-#databases = [x[0] for x in mycursor] ??
-if "SADProject" not in databases:
-    mycursor.execute("CREATE DATABASE SADProject")
-    mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="MYSQL1378",
-        database="SADProject"
+class db_connector:
+    def __init__(self):
+        mydb = mysql.connector.connect(
+            host="localhost",
+            user="root",
+            password="MYSQL1378"  
         )
-    mycursor.execute("CREATE TABLE costumer (costumerID VARCHAR(255) PRIMARY KEY, email VARCHAR(255) NOT NULL)")
-    mycursor.execute("CREATE TABLE product_order (productID VARCHAR(255) PRIMARY KEY, unit_price INTEGER NOT NULL, productID VARCHAR(255) NOT NULL)")
-    mycursor.execute("CREATE TABLE costumer_order (costumer_orderID VARCHAR(255) PRIMARY KEY, costumerID VARCHAR(255) NOT NULL, product_orderID VARCHAR(255) NOT NULL, FOREIGN KEY (costumerID) REFERENCES costumer (costumerID), FOREIGN KEY (product_orderID) REFERENCES product_order (product_orderID))")
+        mycursor = mydb.cursor()
+        mycursor.execute("SHOW DATABASES")
 
-else:
-    mydb = mysql.connector.connect(
-        host="localhost",
-        user="root",
-        password="MYSQL1378",
-        database="SADProject"
-        )
+        #databases = [x[0] for x in mycursor] ??
+        if "SADProject" not in databases:
+            mycursor.execute("CREATE DATABASE SADProject")
+            mydb = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                password="MYSQL1378",
+                database="SADProject"
+                )
+            mycursor.execute("CREATE TABLE customer (customerID VARCHAR(255) PRIMARY KEY, email VARCHAR(255) NOT NULL)")
+            mycursor.execute("CREATE TABLE product_order (productID VARCHAR(255) PRIMARY KEY, unit_price INTEGER NOT NULL, productID VARCHAR(255) NOT NULL)")
+            mycursor.execute("CREATE TABLE customer_order (customer_orderID VARCHAR(255) PRIMARY KEY, customerID VARCHAR(255) NOT NULL, product_orderID VARCHAR(255) NOT NULL, FOREIGN KEY (customerID) REFERENCES customer (customerID), FOREIGN KEY (product_orderID) REFERENCES product_order (product_orderID))")
+        else:
+            mydb = mysql.connector.connect(
+                host="localhost",
+                user="root",
+                password="MYSQL1378",
+                database="SADProject"
+                )
+        slef.mydb = mydb
 
-#insertion customer:
+    def insert_customer(self, id, email):
 
-sql = "INSERT INTO customer (costumerID, email) VALUES (%s, %s)"
-val = parameters.values()
-mycursor.execute(sql, val)
+        sql = "INSERT INTO customer (customerID, email) VALUES (%s, %s)"
+        val = (id, email)
+        mycursor.execute(sql, val)
 
-mydb.commit()
+        mydb.commit()
 
-#insertion product_order:
+    def insert_product_order(self, product_order_id, price, product_id):
 
-sql = "INSERT INTO product_order (productID, unit_price, productID) VALUES (%s, %s, %s)"
-val = parameters.values()
-mycursor.execute(sql, val)
+        sql = "INSERT INTO product_order (productID, unit_price, productID) VALUES (%s, %s, %s)"
+        val = (product_order_id, price, product_id)
+        mycursor.execute(sql, val)
 
-mydb.commit()
+        mydb.commit()
 
-#insertion costumer_order:
+    def insert_customer_order(self, customer_order_id, customer_id, product_order_id):
+        sql = "INSERT INTO customer_order (customer_orderID, customerID, product_orderID) VALUES (%s, %s, %s)"
+        val = (product_order_id, price, product_id)
+        mycursor.execute(sql, val)
 
-sql = "INSERT INTO costumer_order (costumer_orderID, costumerID, product_orderID) VALUES (%s, %s, %s)"
-val = parameters.values()
-mycursor.execute(sql, val)
+        mydb.commit()
 
-mydb.commit()
+if __name__ == "__main__":
+    connector = db_connector()
