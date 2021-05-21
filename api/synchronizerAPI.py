@@ -1,9 +1,11 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
+from db.DB import DBClass
 
 
 class MyHandler(BaseHTTPRequestHandler):
     # initial db here
-    # db = DBClass()
+    db = DBClass()
+
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
         post_data = self.rfile.read(content_length)  # <--- Gets the data itself
@@ -14,7 +16,7 @@ class MyHandler(BaseHTTPRequestHandler):
                 self.end_headers()
                 params["email"] = params["email"].replace("%40", "@")
                 # call the method to save customer to DB
-                # db.save_customer(params)
+                self.db.insert_customer(params)
             else:
                 self.send_error(400, "wrong parameters")
 
@@ -23,16 +25,16 @@ class MyHandler(BaseHTTPRequestHandler):
                 self.send_response(200)
                 self.end_headers()
                 # save order to database
-                # db.product_order(params)
+                self.db.insert_product_order(params)
             else:
                 self.send_error(400, "wrong parameters")
 
         elif self.path == "/customer_order":
-            if MyHandler.fields_in_params(params, ["costumer_orderID", "costumerID", "product_orderID"]):
+            if MyHandler.fields_in_params(params, ["customer_orderID", "customerID", "product_orderID"]):
                 self.send_response(200)
                 self.end_headers()
                 # save order to database
-                # db.customer_order(params)
+                self.db.insert_customer_order(params)
             else:
                 self.send_error(400, "wrong parameters")
         return
@@ -53,9 +55,6 @@ class SynchronizerAPI:
         print('starting server on {}:{}'.format(self.server_address[0], self.server_address[1]))
         self.server.serve_forever()
 
-
-#s = SynchronizerAPI(('127.0.0.1', 8081))
-#s.start_serving()
 
 
 
