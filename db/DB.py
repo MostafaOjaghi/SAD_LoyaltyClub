@@ -10,61 +10,112 @@ Original file is located at
 """
 
 import mysql.connector
+from mysql.connector import errorcode
 
+DB_NAME = 'SADProject'
 
-class db_connector:
+TABLES = {}
+TABLES['customerT'] = (
+    "CREATE TABLE `customerT` ("
+    "  `customerID` VARCHAR(30) PRIMARY KEY,"
+    "  `email` VARCHAR(255) NOT NULL"
+    ") ")
+TABLES['product_orderT'] = (
+    "CREATE TABLE `product_orderT` ("
+    "  `product_orderID` VARCHAR(100) PRIMARY KEY,"
+    "  `unit_price` INTEGER NOT NULL,"
+    "  `productID` VARCHAR(40) NOT NULL"
+    ") ")
+TABLES['customer_orderT'] = (
+    "CREATE TABLE `customer_orderT` ("
+    "  `customer_orderID` VARCHAR(100) PRIMARY KEY,"
+    "  `customerID` VARCHAR(30) NOT NULL,"
+    "  `product_orderID` VARCHAR(100) NOT NULL,"
+    " FOREIGN KEY (customerID) REFERENCES customerT (customerID),"
+    " FOREIGN KEY (product_orderID) REFERENCES product_orderT (product_orderID)"
+    ") ")
+
+class DBClass:
     def __init__(self):
-        mydb = mysql.connector.connect(
+        cnx = mysql.connector.connect(
             host="localhost",
-            user="root",
-            password="MYSQL1378"  
-        )
-        mycursor = mydb.cursor()
-        mycursor.execute("SHOW DATABASES")
+            user="sad",
+            password="sad_pass",
+            database="SADProject"
+            )
 
-        #databases = [x[0] for x in mycursor] ??
-        if "SADProject" not in databases:
-            mycursor.execute("CREATE DATABASE SADProject")
-            mydb = mysql.connector.connect(
-                host="localhost",
-                user="root",
-                password="MYSQL1378",
-                database="SADProject"
-                )
-            mycursor.execute("CREATE TABLE customer (customerID VARCHAR(255) PRIMARY KEY, email VARCHAR(255) NOT NULL)")
-            mycursor.execute("CREATE TABLE product_order (productID VARCHAR(255) PRIMARY KEY, unit_price INTEGER NOT NULL, productID VARCHAR(255) NOT NULL)")
-            mycursor.execute("CREATE TABLE customer_order (customer_orderID VARCHAR(255) PRIMARY KEY, customerID VARCHAR(255) NOT NULL, product_orderID VARCHAR(255) NOT NULL, FOREIGN KEY (customerID) REFERENCES customer (customerID), FOREIGN KEY (product_orderID) REFERENCES product_order (product_orderID))")
-        else:
-            mydb = mysql.connector.connect(
-                host="localhost",
-                user="root",
-                password="MYSQL1378",
-                database="SADProject"
-                )
-        slef.mydb = mydb
+        cursor = cnx.cursor()
+        for table_name in TABLES:
+            table_description = TABLES[table_name]
+            try:
+                print("Creating table {}: ".format(table_name), end='')
+                cursor.execute(table_description)
+            except mysql.connector.Error as err:
+                if err.errno == errorcode.ER_TABLE_EXISTS_ERROR:
+                    print("already exists.")
+                else:
+                    print(err.msg)
+            else:
+                print("OK")
+    
+        cursor.close()
+        self.cnx = cnx
 
-    def insert_customer(self, id, email):
+    def insert_customer(self, params):
+        id = params['customerID']
+        email = params['email']
 
-        sql = "INSERT INTO customer (customerID, email) VALUES (%s, %s)"
+        sql = "INSERT INTO customerT (customerID, email) VALUES (%s, %s)"
         val = (id, email)
-        mycursor.execute(sql, val)
+        cursor = self.cnx.cursor()
+        cursor.execute(sql, val)
+        self.cnx.commit()
+        cursor.close()
 
-        mydb.commit()
+    def insert_product_order(self, params):
+        product_order_id = params['product_orderID']
+        unit_price = params['unit_price']
+        product_id = params['productID']
 
-    def insert_product_order(self, product_order_id, price, product_id):
+        sql = "INSERT INTO product_orderT (product_orderID, unit_price, productID) VALUES (%s, %s, %s)"
+        val = (product_order_id, unit_price, product_id)
+        cursor = self.cnx.cursor()
+        cursor.execute(sql, val)
+        self.cnx.commit()
+        cursor.close()
 
-        sql = "INSERT INTO product_order (productID, unit_price, productID) VALUES (%s, %s, %s)"
-        val = (product_order_id, price, product_id)
-        mycursor.execute(sql, val)
+    def insert_customer_order(self, params):
+        customer_order_id = params['customer_orderID']
+        customer_id = params['customerID']
+        product_order_id = params['product_orderID']
 
-        mydb.commit()
+        sql = "INSERT INTO customer_orderT (customer_orderID, customerID, product_orderID) VALUES (%s, %s, %s)"
+        val = (customer_order_id, customer_id, product_order_id)
+        cursor = self.cnx.cursor()
+        cursor.execute(sql, val)
+        self.cnx.commit()
+        cursor.close()
 
-    def insert_customer_order(self, customer_order_id, customer_id, product_order_id):
-        sql = "INSERT INTO customer_order (customer_orderID, customerID, product_orderID) VALUES (%s, %s, %s)"
-        val = (product_order_id, price, product_id)
-        mycursor.execute(sql, val)
-
-        mydb.commit()
 
 if __name__ == "__main__":
-    connector = db_connector()
+    db = DBClass()
+
+    customer = {
+        'customerID' : '1233',
+        'email' : 'a@b.c',
+    }
+    db.insert_customer(customer)
+
+    product_order = {
+        'product_orderID': '12',
+        'unit_price': '14000',
+        'productID': '14',
+    }
+    db.insert_product_order(product_order)
+
+    customer_order = {
+        'customer_orderID': '001',
+        'customerID': '1233',
+        'product_orderID': '12',
+    }
+    db.insert_customer_order(customer_order)
