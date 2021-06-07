@@ -97,6 +97,7 @@ class DBClass:
         cursor.close()
 
 
+
 if __name__ == "__main__":
     db = DBClass()
 
