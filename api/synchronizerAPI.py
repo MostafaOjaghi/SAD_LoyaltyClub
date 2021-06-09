@@ -4,7 +4,7 @@ from db.DB import DBClass
 
 class MyHandler(BaseHTTPRequestHandler):
     # initial db here
-    db = DBClass()
+    # db = DBClass()
 
     def do_POST(self):
         content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
@@ -39,6 +39,7 @@ class MyHandler(BaseHTTPRequestHandler):
                 self.send_error(400, "wrong parameters")
         return
 
+    @staticmethod
     def fields_in_params(params, fields):
         for field in fields:
             if field not in params:
@@ -47,14 +48,11 @@ class MyHandler(BaseHTTPRequestHandler):
 
 
 class SynchronizerAPI:
-    def __init__(self, server_address):
+    def __init__(self, server_address, DB):
+        MyHandler.db = DB
         self.server_address = server_address
         self.server = HTTPServer(server_address, MyHandler)
 
     def start_serving(self):
         print('starting server on {}:{}'.format(self.server_address[0], self.server_address[1]))
         self.server.serve_forever()
-
-
-
-
