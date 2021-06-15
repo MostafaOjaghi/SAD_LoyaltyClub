@@ -20,19 +20,13 @@ TABLES['customerT'] = (
     "  `customerID` VARCHAR(30) PRIMARY KEY,"
     "  `email` VARCHAR(255) NOT NULL"
     ") ")
-TABLES['product_orderT'] = (
-    "CREATE TABLE `product_orderT` ("
-    "  `product_orderID` VARCHAR(100) PRIMARY KEY,"
-    "  `unit_price` INTEGER NOT NULL,"
-    "  `productID` VARCHAR(40) NOT NULL"
-    ") ")
-TABLES['customer_orderT'] = (
-    "CREATE TABLE `customer_orderT` ("
-    "  `customer_orderID` VARCHAR(100) PRIMARY KEY,"
+TABLES['orderT'] = (
+    "CREATE TABLE `orderT` ("
+    "  `orderID` VARCHAR(100) PRIMARY KEY,"
     "  `customerID` VARCHAR(30) NOT NULL,"
-    "  `product_orderID` VARCHAR(100) NOT NULL,"
+    "  `date` DATE NOT NULL,"
+    "  `total_price` INTEGER NOT NULL,"
     " FOREIGN KEY (customerID) REFERENCES customerT (customerID),"
-    " FOREIGN KEY (product_orderID) REFERENCES product_orderT (product_orderID)"
     ") ")
 
 class DBClass:
@@ -72,25 +66,14 @@ class DBClass:
         self.cnx.commit()
         cursor.close()
 
-    def insert_product_order(self, params):
-        product_order_id = params['product_orderID']
-        unit_price = params['unit_price']
-        product_id = params['productID']
-
-        sql = "INSERT INTO product_orderT (product_orderID, unit_price, productID) VALUES (%s, %s, %s)"
-        val = (product_order_id, unit_price, product_id)
-        cursor = self.cnx.cursor()
-        cursor.execute(sql, val)
-        self.cnx.commit()
-        cursor.close()
-
-    def insert_customer_order(self, params):
-        customer_order_id = params['customer_orderID']
+    def insert_order(self, params):
+        customer_order_id = params['orderID']
         customer_id = params['customerID']
-        product_order_id = params['product_orderID']
+        date = params['date']
+        total_price = params['total_price']
 
-        sql = "INSERT INTO customer_orderT (customer_orderID, customerID, product_orderID) VALUES (%s, %s, %s)"
-        val = (customer_order_id, customer_id, product_order_id)
+        sql = "INSERT INTO customer_orderT (customer_orderID, customerID, date, total_price) VALUES (%s, %s, %s, %s)"
+        val = (customer_order_id, customer_id, date, total_price)
         cursor = self.cnx.cursor()
         cursor.execute(sql, val)
         self.cnx.commit()
@@ -107,16 +90,9 @@ if __name__ == "__main__":
     }
     db.insert_customer(customer)
 
-    product_order = {
-        'product_orderID': '12',
-        'unit_price': '14000',
-        'productID': '14',
-    }
-    db.insert_product_order(product_order)
-
-    customer_order = {
+    order = {
         'customer_orderID': '001',
         'customerID': '1233',
-        'product_orderID': '12',
+        'total_price': '12',
     }
-    db.insert_customer_order(customer_order)
+    db.insert_order(order)
