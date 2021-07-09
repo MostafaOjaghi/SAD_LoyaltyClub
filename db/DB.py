@@ -86,7 +86,8 @@ class DBClass:
         cursor.execute(sql, val)
         result = cursor.fetchall()
         cursor.close()
-        result = [dict([('date', date), ('total_price', total_price)]) for (date, total_price) in result]
+        result = [dict([('date', date.strftime('%Y/%m/%d')), ('total_price', total_price)])
+                for (date, total_price) in result]
         return result
 
     def get_userIDs(self):
