@@ -26,7 +26,7 @@ TABLES['orderT'] = (
     "  `customerID` VARCHAR(30) NOT NULL,"
     "  `date` DATE NOT NULL,"
     "  `total_price` INTEGER NOT NULL,"
-    " FOREIGN KEY (customerID) REFERENCES customerT (customerID),"
+    " FOREIGN KEY (customerID) REFERENCES customerT (customerID)"
     ") ")
 
 class DBClass:
@@ -67,32 +67,59 @@ class DBClass:
         cursor.close()
 
     def insert_order(self, params):
-        customer_order_id = params['orderID']
+        order_id = params['orderID']
         customer_id = params['customerID']
         date = params['date']
         total_price = params['total_price']
 
-        sql = "INSERT INTO customer_orderT (customer_orderID, customerID, date, total_price) VALUES (%s, %s, %s, %s)"
-        val = (customer_order_id, customer_id, date, total_price)
+        sql = "INSERT INTO orderT (orderID, customerID, date, total_price) VALUES (%s, %s, %s, %s)"
+        val = (order_id, customer_id, date, total_price)
         cursor = self.cnx.cursor()
         cursor.execute(sql, val)
         self.cnx.commit()
         cursor.close()
+
+    def get_orders(self, user_id):
+        sql = "SELECT date, total_price FROM orderT WHERE customerID = %s"
+        val = (user_id,)
+        cursor = self.cnx.cursor()
+        cursor.execute(sql, val)
+        result = cursor.fetchall()
+        cursor.close()
+        result = [dict([('date', date), ('total_price', total_price)]) for (date, total_price) in result]
+        return result
+
+    def get_userIDs(self):
+        sql = 'SELECT customerID from customerT'
+        cursor = self.cnx.cursor()
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        result = [user_id for (user_id,) in result]
+        cursor.close()
+        return result
+
 
 
 
 if __name__ == "__main__":
     db = DBClass()
 
-    customer = {
-        'customerID' : '1233',
-        'email' : 'a@b.c',
-    }
-    db.insert_customer(customer)
+    # customer = {
+    #     'customerID' : '1233',
+    #     'email' : 'a@b.c',
+    # }
+    # db.insert_customer(customer)
 
-    order = {
-        'customer_orderID': '001',
-        'customerID': '1233',
-        'total_price': '12',
-    }
-    db.insert_order(order)
+    # order = {
+    #     'orderID': '001',
+    #     'customerID': '1233',
+    #     'date': '2021-6-11',
+    #     'total_price': '12',
+    # }
+    # db.insert_order(order)
+
+    orders = db.get_orders('1233')
+    print('get_orders:', orders)
+
+    users = db.get_userIDs()
+    print('get_userIDs:', users)
