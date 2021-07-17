@@ -18,7 +18,8 @@ TABLES = {}
 TABLES['customerT'] = (
     "CREATE TABLE `customerT` ("
     "  `customerID` VARCHAR(30) PRIMARY KEY,"
-    "  `email` VARCHAR(255) NOT NULL"
+    "  `email` VARCHAR(255) NOT NULL,"
+    "  `score` INTEGER NOT NULL"
     ") ")
 TABLES['orderT'] = (
     "CREATE TABLE `orderT` ("
@@ -58,9 +59,10 @@ class DBClass:
     def insert_customer(self, params):
         id = params['customerID']
         email = params['email']
+        score = 0;
 
-        sql = "INSERT INTO customerT (customerID, email) VALUES (%s, %s)"
-        val = (id, email)
+        sql = "INSERT INTO customerT (customerID, email, score) VALUES (%s, %s, %s)"
+        val = (id, email, score)
         cursor = self.cnx.cursor()
         cursor.execute(sql, val)
         self.cnx.commit()
@@ -91,7 +93,7 @@ class DBClass:
         return result
 
     def get_userIDs(self):
-        sql = 'SELECT customerID from customerT'
+        sql = 'SELECT customerID FROM customerT'
         cursor = self.cnx.cursor()
         cursor.execute(sql)
         result = cursor.fetchall()
@@ -99,7 +101,30 @@ class DBClass:
         cursor.close()
         return result
 
+    def get_customer_score(self, user_id):
+        sql = "SELECT score, FROM customerT WHERE customerID = %s"
+        val = (user_id,)
+        cursor = self.cnx.cursor()
+        cursor.execute(sql, val)
+        result = cursor.fetchone()
+        cursor.close()
+        return result
 
+    def get_all_scores(self):
+        sql = 'SELECT customerID, score FROM customerT'
+        cursor = self.cnx.cursor()
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        cursor.close()
+        result = [dict([('customerID', customerID), ('score', score)]) for (customerID, score) in result]
+        return result
+
+    def update_customer_score(self, user_id, score):
+        sql = "UPDATE customerT SET score = %s WHERE customerID = %s"
+        val = (score, user_id)
+        mycursor.execute(sql)
+        self.cnx.commit()
+        cursor.close()
 
 
 if __name__ == "__main__":
@@ -108,6 +133,7 @@ if __name__ == "__main__":
     # customer = {
     #     'customerID' : '1233',
     #     'email' : 'a@b.c',
+    #     'score' : '0',
     # }
     # db.insert_customer(customer)
 

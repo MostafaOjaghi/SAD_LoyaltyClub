@@ -32,7 +32,7 @@ class PointsDefinition:
             lambda a, b, order_diff, total_price: -a * order_diff * total_price + b * total_price
         ]
 
-    def cal_score(self, user_orders):
+    def cal_score(self, user_orders): 
         current_date = datetime.today().strftime('%Y/%m/%d')
         score = 0
         for order in user_orders:
