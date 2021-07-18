@@ -2,49 +2,47 @@ import math
 from datetime import datetime
 
 
-orders = [
-    {"date": "2021/1/1",
-     "total_price": 2000000},
-    {"date": "2021/2/2",
-     "total_price": 3000000},
-    {"date": "2021/3/3",
-     "total_price": 4000000},
-    {"date": "2021/4/4",
-     "total_price": 5000000},
-]
-
-
 class PointsDefinition:
 
-    def __init__(self):
-        self.intervals = [30, 60, 90, 120]
-        self.modes = [2, 2, 2, 2]
-        self.params = [
-            [0.01, 1],
-            [0.01, 1],
-            [0.01, 1],
-            [0.01, 1]
-        ]
-        self.methods = [
-            lambda a, b, k, order_diff, total_price: k / math.log10(
-                a + b * order_diff) * total_price,
-            lambda a, order_diff, total_price: a * total_price,
-            lambda a, b, order_diff, total_price: -a * order_diff * total_price + b * total_price
-        ]
+    def __init__(self, db):
+        self.score_period = 4
+        self.score_coefficient = 0.1
+        self.score_function = lambda x: self.score_coefficient * x
+        self.db = db
+        self.ranks = {
+            "newbie": {
+                "rank range": [0, float('inf')],
+                "off": 0,
+                "monthly limit": 0,
+                "free shipping": True
+            }
+        }
 
-    def cal_score(self, user_orders): 
-        current_date = datetime.today().strftime('%Y/%m/%d')
-        score = 0
-        for order in user_orders:
-            order_date = datetime.strptime(order["date"], '%Y/%m/%d')
-            order_diff = (datetime.strptime(current_date, '%Y/%m/%d') - order_date).total_seconds() / (60*60*24)
-            for j in range(len(self.intervals)):
-                if order_diff <= self.intervals[j]:
-                    score += self.methods[self.modes[j]](
-                        *self.params[j], order_diff, order["total_price"])
-                    break
-        return score
+    def cal_users_scores(self, customer_ids):
+        total_prices = [10, 20, 30, 40]
+        # total_prices = DB.get_total_prices(customer_ids, self.score_period)
+        scores = []
+        for price in total_prices:
+            scores.append(self.score_function(price))
+
+        # update users scores in DB
+        return scores
+
+    def rank_users(self, first, last):
+        user_scores = sorted(self.db.get_all_scores().items(), key=lambda item: item[1])
+        # user_scores = {
+        #     "Atoosa": 2000,
+        #     "Matin": 1500,
+        #     "Mostafa": 2300,
+        #     "Yegane": 1800
+        # }
+        #
+        # user_scores = (sorted(user_scores.items(), key=lambda item: item[1], reverse=True))
+
+        return [user_scores[i][0] for i in range(first-1, last)]
 
 
-# score = PointsDefinition.cal_score(orders)
+# PD = PointsDefinition("DB")
+# score = PD.cal_score("customer IDS")
 # print(score)
+# print(PD.rank_users(1, 4))
