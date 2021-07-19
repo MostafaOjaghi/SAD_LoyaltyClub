@@ -92,6 +92,19 @@ class DBClass:
                 for (date, total_price) in result]
         return result
 
+    def get_sum_of_purchases(self, user_id, months):
+        sql = "SELECT sum(total_price) FROM orderT \
+                WHERE customerID = %s AND date >= DATE_SUB( CURDATE(), INTERVAL %s MONTH )"
+        val = (user_id, months)
+        cursor = self.cnx.cursor()
+        cursor.execute(sql, val)
+        result = cursor.fetchall()
+        cursor.close()
+        sum = result[0][0]
+        if not sum:
+            sum = 0
+        return sum
+
     def get_userIDs(self):
         sql = 'SELECT customerID FROM customerT'
         cursor = self.cnx.cursor()
@@ -122,7 +135,8 @@ class DBClass:
     def update_customer_score(self, user_id, score):
         sql = "UPDATE customerT SET score = %s WHERE customerID = %s"
         val = (score, user_id)
-        mycursor.execute(sql)
+        cursor = self.cnx.cursor()
+        cursor.execute(sql, val)
         self.cnx.commit()
         cursor.close()
 
@@ -150,3 +164,6 @@ if __name__ == "__main__":
 
     users = db.get_userIDs()
     print('get_userIDs:', users)
+
+    price = db.get_sum_of_purchases('1233', 1)
+    print('sum of purchases: ', price)
