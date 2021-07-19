@@ -1,6 +1,8 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from db.DB import DBClass
 from PD.PointsDefinition import PointsDefinition
+import json
+
 
 
 class PointsDefinitionHandler(BaseHTTPRequestHandler):
@@ -69,31 +71,75 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
             self.handle_update_rank(params)
 
     def do_GET(self):
-        content_length = self.headers['Content-Length']
-        print(content_length)
-        if content_length is None:
-            # return all scores
-
+        try:
+            # getting parameters
+            content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
+            post_data = self.rfile.read(content_length)  # <--- Gets the data itself
+            params = dict([tuple(s.split("=")) for s in post_data.decode("utf-8").split("&")])
+            # print(params)
+        except:
+            self.send_error(400, "no parameters sent")
+            print("no parameters sent")
             return
 
-        content_length = int(content_length)  # <--- Gets the size of data
-        post_data = self.rfile.read(content_length)  # <--- Gets the data itself
-        params = dict([tuple(s.split("=")) for s in post_data.decode("utf-8").split("&")])
-        if len(params) > 1:
-            self.send_error(400, "too many parameters")
-            print("too many parameters")
-            return
-        if "id" not in params:
+        if self.path == "/customers-score":
+            self.handle_customer_ids(params)
+        elif self.path == "/rank-info":
+            self.handle_rank_info(params)
+        return
+
+    def handle_rank_info(self, params):
+        if PointsDefinitionHandler.fields_in_params(params, ["customer_ids"]):
+            if len(params) > 1:
+                self.send_error(400, "too many parameters")
+                print("too many parameters")
+            else:
+                ranks_info = self.PD.get_rank_info(params["customer_ids"])
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.end_headers()
+                json_string = json.dumps(ranks_info)
+                self.wfile.write(bytes(json_string, 'utf-8'))
+        else:
             self.send_error(400, "wrong parameters")
             print("wrong parameters")
-            return
 
-        # user_order = PointsDefinitionHandler.DB.
-        # score = PointsDefinitionHandler.PD.cal_score(user_order)
-        # send score to sale system
+    def handle_customer_ids(self, params):
+        if PointsDefinitionHandler.fields_in_params(params, ["customer_ids"]):
+            if len(params) > 1:
+                self.send_error(400, "too many parameters")
+                print("too many parameters")
+            else:
+                customer_ids = params["customer_ids"]
+                # get customer scores from DB
+                customer_scores = {}
+                for id in customer_ids:
+                    customer_scores[id] = self.DB.get_customer_score(id)
+                # customer_scores = {"id1": 100, "id2": 200}
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.end_headers()
+                json_string = json.dumps(customer_scores)
+                self.wfile.write(bytes(json_string, 'utf-8'))
 
-        # print(params)
-        return
+        elif PointsDefinitionHandler.fields_in_params(params, ["recalculate_ids"]):
+            if len(params) > 1:
+                self.send_error(400, "too many parameters")
+                print("too many parameters")
+            else:
+                customer_ids = params["recalculate_ids"]
+                customer_ids = ["id1", "id2", "id3", "id4"]
+                customer_scores = self.PD.cal_users_scores(customer_ids)
+                customer_scores = dict([(customer_ids[i], customer_scores[i]) for i in range(len(customer_ids))])
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.end_headers()
+                json_string = json.dumps(customer_scores)
+                self.wfile.write(bytes(json_string, 'utf-8'))
+                # recalculate and return customer ids
+        else:
+            self.send_error(400, "wrong parameters")
+            print("wrong parameters")
 
     def handle_update_rank(self, params):
         have_name = PointsDefinitionHandler.fields_in_params(params, ["name"])
@@ -247,3 +293,5 @@ class PointsDefinitionAPI:
 
 s = PointsDefinitionAPI(('127.0.0.1', 8081), "DB", PointsDefinition("DB"))
 s.start_serving()
+
+
