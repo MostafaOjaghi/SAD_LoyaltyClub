@@ -4,7 +4,6 @@ from PD.PointsDefinition import PointsDefinition
 import json
 
 
-
 class PointsDefinitionHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
@@ -115,7 +114,6 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
                 customer_scores = {}
                 for id in customer_ids:
                     customer_scores[id] = self.DB.get_customer_score(id)
-                # customer_scores = {"id1": 100, "id2": 200}
                 self.send_response(200)
                 self.send_header('Content-Type', 'application/json')
                 self.end_headers()
@@ -128,7 +126,6 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
                 print("too many parameters")
             else:
                 customer_ids = params["recalculate_ids"]
-                customer_ids = ["id1", "id2", "id3", "id4"]
                 customer_scores = self.PD.cal_users_scores(customer_ids)
                 customer_scores = dict([(customer_ids[i], customer_scores[i]) for i in range(len(customer_ids))])
                 self.send_response(200)
@@ -136,7 +133,6 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
                 self.end_headers()
                 json_string = json.dumps(customer_scores)
                 self.wfile.write(bytes(json_string, 'utf-8'))
-                # recalculate and return customer ids
         else:
             self.send_error(400, "wrong parameters")
             print("wrong parameters")
@@ -259,7 +255,7 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
                 self.send_response(200)
                 self.end_headers()
             elif have_score_period:
-                self.PD.score_coefficient = params["score_period"]
+                self.PD.score_period = params["score_period"]
                 self.send_response(200)
                 self.end_headers()
             else:
@@ -290,8 +286,5 @@ class PointsDefinitionAPI:
         print('starting server on {}:{}'.format(self.server_address[0], self.server_address[1]))
         self.server.serve_forever()
 
-
-s = PointsDefinitionAPI(('127.0.0.1', 8081), "DB", PointsDefinition("DB"))
-s.start_serving()
-
-
+# s = PointsDefinitionAPI(('127.0.0.1', 8081), "DB", PointsDefinition("DB"))
+# s.start_serving()
