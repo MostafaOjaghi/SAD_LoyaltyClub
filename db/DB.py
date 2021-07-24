@@ -93,7 +93,7 @@ class DBClass:
         return result
     
     def get_recent_purchases(self, user_id, months):
-        sql = "SELECT total_price FROM orderT WHERE customerID = %s, \
+        sql = "SELECT total_price FROM orderT WHERE customerID = %s \
                 AND date >= DATE_SUB( CURDATE(), INTERVAL %s MONTH )"
         val = (user_id, months)
         cursor = self.cnx.cursor()
@@ -192,3 +192,11 @@ if __name__ == "__main__":
 
     price = db.get_sum_of_purchases('1233', 1)
     print('sum of purchases: ', price)
+
+    purchases = db.get_recent_purchases('1233', 10)
+    print('purchases: ', purchases)
+
+    db.update_customer_score('1233', 5)
+
+    scores = db.get_all_scores()
+    print('scores:', scores)
