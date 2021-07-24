@@ -91,6 +91,31 @@ class DBClass:
         result = [dict([('date', date.strftime('%Y/%m/%d')), ('total_price', total_price)])
                 for (date, total_price) in result]
         return result
+    
+    def get_recent_purchases(self, user_id, months):
+        sql = "SELECT total_price FROM orderT WHERE customerID = %s, \
+                AND date >= DATE_SUB( CURDATE(), INTERVAL %s MONTH )"
+        val = (user_id, months)
+        cursor = self.cnx.cursor()
+        cursor.execute(sql, val)
+        result = cursor.fetchall()
+        cursor.close()
+        result = [x[0] for x in result]
+        '''
+            def cal_users_scores(self, customer_ids):
+                scores = []
+                for id in customer_ids:
+                    recent_purchases = self.db.get_recent_purchases(id, self.score_period)
+                    sum = 0
+                    for purchase in recent_purchases:
+                        sum = sum + self.score_function(purchase)
+                    scores.append(sum)
+
+                for i in range(len(customer_ids)):
+                    self.db.update_customer_score(customer_ids[i], scores[i])
+                return scores
+        '''
+        return result
 
     def get_sum_of_purchases(self, user_id, months):
         sql = "SELECT sum(total_price) FROM orderT \
