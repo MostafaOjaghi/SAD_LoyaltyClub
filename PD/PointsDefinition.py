@@ -1,5 +1,4 @@
-import math
-from datetime import datetime
+import numpy as np
 
 
 class PointsDefinition:
@@ -8,6 +7,7 @@ class PointsDefinition:
         self.score_period = 4
         self.score_coefficient = 0.1
         self.score_function = lambda x: self.score_coefficient * x
+        self.max_order_score = 150
         self.db = db
         self.ranks = {
             "newbie": {
@@ -37,12 +37,12 @@ class PointsDefinition:
         return None
 
     def cal_users_scores(self, customer_ids):
-        total_prices = [self.db.get_sum_of_purchases(id, self.score_period) for id in customer_ids]
         scores = []
-        for price in total_prices:
-            scores.append(self.score_function(price))
+        for id in customer_ids:
+            recent_purchases = self.db.get_recent_purchases(id, self.score_period)
+            score = sum([np.min(self.score_function(purchase), self.max_order_score) for purchase in recent_purchases])
+            scores.append(score)
 
-        # update users scores in DB
         for i in range(len(customer_ids)):
             self.db.update_customer_score(customer_ids[i], scores[i])
         return scores
@@ -58,7 +58,3 @@ class PointsDefinition:
             scores.append(self.score_function(price))
         ranks = dict((customer_ids[i], self.ranks[self.get_rank(scores[i])]) for i in range(len(customer_ids)))
         return ranks
-
-
-# PD = PointsDefinition("DB")
-# score = PD.cal_score("customer IDS")

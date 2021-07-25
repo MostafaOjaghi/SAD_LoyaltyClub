@@ -144,9 +144,9 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
         have_limit = PointsDefinitionHandler.fields_in_params(params, ["monthly_limit"])
         have_freeshipping = PointsDefinitionHandler.fields_in_params(params, ["free_shipping"])
         total_correct_params = have_name + have_range + have_off + have_limit + have_freeshipping
-        if len(params) > total_correct_params:
-            self.send_error(400, "too many parameters")
-            print("too many parameters")
+        if len(params) != total_correct_params:
+            self.send_error(400, "wrong parameters")
+            print("wrong parameters")
         elif not have_name or params["name"] == "":
             self.send_error(400, "should specify rank name")
             print("should specify rank name")
@@ -173,12 +173,10 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
                             free_shipping = True if params["free_shipping"] == "True" else False
                         else:
                             raise Exception()
-                    print(self.PD.ranks)
                     rank["rank range"] = rank_range
                     rank["off"] = off
                     rank["monthly limit"] = monthly_limit
                     rank["free shipping"] = free_shipping
-                    print(self.PD.ranks)
                     self.send_response(200)
                     self.end_headers()
                 except:
@@ -212,15 +210,12 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
                     raise Exception()
                 if name == "" or len(rank_range) != 2:
                     raise Exception()
-
-                print(self.PD.ranks)
                 self.PD.ranks[name] = {
                     "rank range": rank_range,
                     "off": off,
                     "monthly limit": monthly_limit,
                     "free shipping": free_shipping
                 }
-                print(self.PD.ranks)
                 self.send_response(200)
                 self.end_headers()
                 return
@@ -236,36 +231,32 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
             return
 
     def handle_score_parameter(self, params):
-        if len(params) > 2:
-            self.send_error(400, "too many parameters")
-            print("too many parameters")
-            return
         have_score_coefficient = PointsDefinitionHandler.fields_in_params(params, ["score_coefficient"])
         have_score_period = PointsDefinitionHandler.fields_in_params(params, ["score_period"])
+        have_max_order_score = PointsDefinitionHandler.fields_in_params(params, ["max_order_score"])
+        total_correct_parameters = have_score_coefficient + have_score_period + have_max_order_score
 
-        if have_score_coefficient and have_score_period:
-            self.PD.score_coefficient = params["score_coefficient"]
-            self.PD.score_period = params["score_period"]
-            self.send_response(200)
-            self.end_headers()
-
-        elif len(params) == 1:
-            if have_score_coefficient:
-                self.PD.score_coefficient = params["score_coefficient"]
-                self.send_response(200)
-                self.end_headers()
-            elif have_score_period:
-                self.PD.score_period = params["score_period"]
-                self.send_response(200)
-                self.end_headers()
-            else:
-                self.send_error(400, "wrong parameter")
-                print("wrong parameters")
-        else:
+        if len(params) != total_correct_parameters:
             self.send_error(400, "wrong parameters")
             print("wrong parameters")
-        return
-        # save score_period
+            return
+        try:
+            score_coefficient, score_period, max_order_score = self.PD.score_coefficient, self.PD.score_period, self.PD.max_order_score
+            if have_score_coefficient:
+                score_coefficient = float(params["score_coefficient"])
+            if have_score_period:
+                score_period = int(params["score_period"])
+            if have_max_order_score:
+                max_order_score = float(params["max_order_score"])
+            self.PD.score_coefficient = score_coefficient
+            self.PD.score_period = score_period
+            self.PD.max_order_score = max_order_score
+            self.send_response(200)
+            self.end_headers()
+        except:
+            self.send_error(400, "wrong parameters format")
+            print("wrong parameters format")
+
 
     @staticmethod
     def fields_in_params(params, fields):

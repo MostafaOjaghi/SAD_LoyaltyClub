@@ -2,11 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="0e5a9fcf-5626-42d3-896d-6178e9e04566" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/PD/__init__.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/LoyaltyClub.py" beforeDir="false" afterPath="$PROJECT_DIR$/LoyaltyClub.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/PD/PointsDefinition.py" beforeDir="false" afterPath="$PROJECT_DIR$/PD/PointsDefinition.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/api/PointsDefinitionAPI.py" beforeDir="false" afterPath="$PROJECT_DIR$/api/PointsDefinitionAPI.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/db/DB.py" beforeDir="false" afterPath="$PROJECT_DIR$/db/DB.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -25,8 +24,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/LoyaltyClub.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="363">
-              <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
+            <state relative-caret-position="264">
+              <caret line="11" selection-start-line="11" selection-end-line="11" />
               <folding>
                 <element signature="e#0#47#0" expanded="true" />
               </folding>
@@ -34,65 +33,18 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/PD/PointsDefinition.py">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="99">
-              <caret line="4" column="23" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
+              <caret line="9" column="28" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="28" />
               <folding>
-                <element signature="e#73#2302#0" />
-                <element signature="e#105#830#0" />
-                <element signature="e#273#830#0" />
                 <element signature="e#297#452#0" />
                 <element signature="e#476#635#0" />
                 <element signature="e#659#818#0" />
-                <element signature="e#871#1043#0" />
-                <element signature="e#906#1023#0" />
-                <element signature="e#1099#1382#0" />
-                <element signature="e#1431#1838#0" />
-                <element signature="e#1891#2302#0" />
-                <element signature="e#2053#2082#0" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/api/PointsDefinitionAPI.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
-              <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
-              <folding>
-                <element signature="e#236#891#0" />
-                <element signature="e#253#576#0" />
-                <element signature="e#605#706#0" />
-                <element signature="e#926#2214#0" />
-                <element signature="e#943#1266#0" />
-                <element signature="e#1295#1396#0" />
-                <element signature="e#1442#2199#0" />
-                <element signature="e#1479#1567#0" />
-                <element signature="e#1665#1747#0" />
-                <element signature="e#1782#2199#0" />
-                <element signature="e#1870#1968#0" />
-                <element signature="e#2011#2199#0" />
-                <element signature="e#2246#2793#0" />
-                <element signature="e#2263#2586#0" />
-                <element signature="e#2615#2716#0" />
-                <element signature="e#2825#3482#0" />
-                <element signature="e#3532#4196#0" />
-                <element signature="e#4249#6016#0" />
-                <element signature="e#6068#8637#0" />
-                <element signature="e#7398#7557#0" />
-                <element signature="e#7814#8106#0" />
-                <element signature="e#8686#10522#0" />
-                <element signature="e#9901#10101#0" />
-                <element signature="e#10578#11824#0" />
-                <element signature="e#10610#10713#0" />
-                <element signature="e#11894#11999#0" />
-                <element signature="e#11927#11979#0" />
-                <element signature="e#12033#12438#0" />
-                <element signature="e#12085#12275#0" />
-                <element signature="e#12314#12438#0" />
+                <element signature="e#870#1042#0" />
+                <element signature="e#1519#1664#0" />
+                <element signature="e#1717#2050#0" />
               </folding>
             </state>
           </provider>
@@ -101,40 +53,41 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/db/DB.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="592">
-              <caret line="134" column="29" selection-start-line="134" selection-start-column="8" selection-end-line="134" selection-end-column="29" />
+            <state relative-caret-position="396">
+              <caret line="102" column="39" selection-start-line="102" selection-start-column="39" selection-end-line="102" selection-end-column="39" />
               <folding>
                 <element signature="e#24#267#1" />
                 <element signature="e#395#550#0" />
-                <element signature="n#customerT#0" />
                 <element signature="e#577#834#0" />
-                <element signature="n#orderT#0" />
                 <element signature="e#884#1617#0" />
                 <element signature="e#1127#1566#0" />
                 <element signature="e#1199#1304#0" />
                 <element signature="e#1370#1520#0" />
                 <element signature="e#1666#1978#0" />
-                <element signature="e#0#68#1" />
-                <element signature="e#49#68#0" />
                 <element signature="e#2024#2444#0" />
-                <element signature="e#0#83#1" />
-                <element signature="e#60#83#0" />
-                <element signature="e#67#83#0" />
                 <element signature="e#2489#2871#0" />
                 <element signature="e#2724#2849#0" />
-                <element signature="e#2934#3314#0" />
-                <element signature="e#2940#3070#0" />
-                <element signature="e#0#79#0" />
-                <element signature="e#3351#3586#0" />
-                <element signature="e#0#32#2" />
-                <element signature="e#3639#3870#0" />
-                <element signature="e#0#50#2" />
-                <element signature="e#3910#4206#0" />
-                <element signature="e#0#39#2" />
-                <element signature="e#4269#4478#0" />
-                <element signature="e#0#53#1" />
-                <element signature="e#4512#5071#0" />
-                <element signature="e#4532#4546#0" />
+                <element signature="e#3936#4316#0" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/api/PointsDefinitionAPI.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="468">
+              <caret line="249" column="66" selection-start-line="249" selection-start-column="66" selection-end-line="249" selection-end-column="66" />
+              <folding>
+                <element signature="e#235#890#0" />
+                <element signature="e#925#2213#0" />
+                <element signature="e#2245#2792#0" />
+                <element signature="e#2824#3481#0" />
+                <element signature="e#3531#4195#0" />
+                <element signature="e#4248#5840#0" />
+                <element signature="e#5892#8461#0" />
+                <element signature="e#8510#10346#0" />
+                <element signature="e#11852#12257#0" />
               </folding>
             </state>
           </provider>
@@ -143,7 +96,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/api/synchronizerAPI.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-101">
+            <state relative-caret-position="231">
               <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
               <folding>
                 <element signature="e#0#58#0" expanded="true" />
@@ -169,6 +122,7 @@
       <find>many</find>
       <find>fields_in_params</find>
       <find>path</find>
+      <find>self.PD</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -180,10 +134,10 @@
         <option value="$PROJECT_DIR$/db/Setup.sql" />
         <option value="$PROJECT_DIR$/sprint2.py" />
         <option value="$PROJECT_DIR$/api/synchronizerAPI.py" />
-        <option value="$PROJECT_DIR$/db/DB.py" />
-        <option value="$PROJECT_DIR$/PD/PointsDefinition.py" />
         <option value="$PROJECT_DIR$/PD/__init__.py" />
         <option value="$PROJECT_DIR$/LoyaltyClub.py" />
+        <option value="$PROJECT_DIR$/PD/PointsDefinition.py" />
+        <option value="$PROJECT_DIR$/db/DB.py" />
         <option value="$PROJECT_DIR$/api/PointsDefinitionAPI.py" />
       </list>
     </option>
@@ -199,7 +153,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -226,6 +179,7 @@
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -370,13 +324,13 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="24870000" />
+    <option name="totallyTimeSpent" value="26531000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1066" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16115262" />
+      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.16275346" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -433,9 +387,19 @@
     <entry file="file://$PROJECT_DIR$/PD/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
+    <entry file="file://$PROJECT_DIR$/LoyaltyClub.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="264">
+          <caret line="11" selection-start-line="11" selection-end-line="11" />
+          <folding>
+            <element signature="e#0#47#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/api/synchronizerAPI.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-101">
+        <state relative-caret-position="231">
           <caret line="8" column="22" selection-start-line="8" selection-start-column="22" selection-end-line="8" selection-end-column="22" />
           <folding>
             <element signature="e#0#58#0" expanded="true" />
@@ -444,91 +408,23 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/LoyaltyClub.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
-          <caret line="11" lean-forward="true" selection-start-line="11" selection-end-line="11" />
-          <folding>
-            <element signature="e#0#47#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/db/DB.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="592">
-          <caret line="134" column="29" selection-start-line="134" selection-start-column="8" selection-end-line="134" selection-end-column="29" />
+        <state relative-caret-position="396">
+          <caret line="102" column="39" selection-start-line="102" selection-start-column="39" selection-end-line="102" selection-end-column="39" />
           <folding>
             <element signature="e#24#267#1" />
             <element signature="e#395#550#0" />
-            <element signature="n#customerT#0" />
             <element signature="e#577#834#0" />
-            <element signature="n#orderT#0" />
             <element signature="e#884#1617#0" />
             <element signature="e#1127#1566#0" />
             <element signature="e#1199#1304#0" />
             <element signature="e#1370#1520#0" />
             <element signature="e#1666#1978#0" />
-            <element signature="e#0#68#1" />
-            <element signature="e#49#68#0" />
             <element signature="e#2024#2444#0" />
-            <element signature="e#0#83#1" />
-            <element signature="e#60#83#0" />
-            <element signature="e#67#83#0" />
             <element signature="e#2489#2871#0" />
             <element signature="e#2724#2849#0" />
-            <element signature="e#2934#3314#0" />
-            <element signature="e#2940#3070#0" />
-            <element signature="e#0#79#0" />
-            <element signature="e#3351#3586#0" />
-            <element signature="e#0#32#2" />
-            <element signature="e#3639#3870#0" />
-            <element signature="e#0#50#2" />
-            <element signature="e#3910#4206#0" />
-            <element signature="e#0#39#2" />
-            <element signature="e#4269#4478#0" />
-            <element signature="e#0#53#1" />
-            <element signature="e#4512#5071#0" />
-            <element signature="e#4532#4546#0" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/api/PointsDefinitionAPI.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="5" lean-forward="true" selection-start-line="5" selection-end-line="5" />
-          <folding>
-            <element signature="e#236#891#0" />
-            <element signature="e#253#576#0" />
-            <element signature="e#605#706#0" />
-            <element signature="e#926#2214#0" />
-            <element signature="e#943#1266#0" />
-            <element signature="e#1295#1396#0" />
-            <element signature="e#1442#2199#0" />
-            <element signature="e#1479#1567#0" />
-            <element signature="e#1665#1747#0" />
-            <element signature="e#1782#2199#0" />
-            <element signature="e#1870#1968#0" />
-            <element signature="e#2011#2199#0" />
-            <element signature="e#2246#2793#0" />
-            <element signature="e#2263#2586#0" />
-            <element signature="e#2615#2716#0" />
-            <element signature="e#2825#3482#0" />
-            <element signature="e#3532#4196#0" />
-            <element signature="e#4249#6016#0" />
-            <element signature="e#6068#8637#0" />
-            <element signature="e#7398#7557#0" />
-            <element signature="e#7814#8106#0" />
-            <element signature="e#8686#10522#0" />
-            <element signature="e#9901#10101#0" />
-            <element signature="e#10578#11824#0" />
-            <element signature="e#10610#10713#0" />
-            <element signature="e#11894#11999#0" />
-            <element signature="e#11927#11979#0" />
-            <element signature="e#12033#12438#0" />
-            <element signature="e#12085#12275#0" />
-            <element signature="e#12314#12438#0" />
+            <element signature="e#3936#4316#0" />
           </folding>
         </state>
       </provider>
@@ -536,20 +432,32 @@
     <entry file="file://$PROJECT_DIR$/PD/PointsDefinition.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="99">
-          <caret line="4" column="23" selection-start-line="4" selection-start-column="23" selection-end-line="4" selection-end-column="23" />
+          <caret line="9" column="28" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="28" />
           <folding>
-            <element signature="e#73#2302#0" />
-            <element signature="e#105#830#0" />
-            <element signature="e#273#830#0" />
             <element signature="e#297#452#0" />
             <element signature="e#476#635#0" />
             <element signature="e#659#818#0" />
-            <element signature="e#871#1043#0" />
-            <element signature="e#906#1023#0" />
-            <element signature="e#1099#1382#0" />
-            <element signature="e#1431#1838#0" />
-            <element signature="e#1891#2302#0" />
-            <element signature="e#2053#2082#0" />
+            <element signature="e#870#1042#0" />
+            <element signature="e#1519#1664#0" />
+            <element signature="e#1717#2050#0" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/api/PointsDefinitionAPI.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="249" column="66" selection-start-line="249" selection-start-column="66" selection-end-line="249" selection-end-column="66" />
+          <folding>
+            <element signature="e#235#890#0" />
+            <element signature="e#925#2213#0" />
+            <element signature="e#2245#2792#0" />
+            <element signature="e#2824#3481#0" />
+            <element signature="e#3531#4195#0" />
+            <element signature="e#4248#5840#0" />
+            <element signature="e#5892#8461#0" />
+            <element signature="e#8510#10346#0" />
+            <element signature="e#11852#12257#0" />
           </folding>
         </state>
       </provider>
