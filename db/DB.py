@@ -126,7 +126,7 @@ class DBClass:
         return result
 
     def get_customer_score(self, user_id):
-        sql = "SELECT score, FROM customerT WHERE customerID = %s"
+        sql = "SELECT score FROM customerT WHERE customerID = %s"
         val = (user_id,)
         cursor = self.cnx.cursor()
         cursor.execute(sql, val)

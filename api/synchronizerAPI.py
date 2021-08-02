@@ -45,5 +45,5 @@ class SynchronizerAPI:
         self.server = HTTPServer(server_address, MyHandler)
 
     def start_serving(self):
-        print('starting server on {}:{}'.format(self.server_address[0], self.server_address[1]))
+        print('starting SynchronizerAPI server on {}:{}'.format(self.server_address[0], self.server_address[1]))
         self.server.serve_forever()

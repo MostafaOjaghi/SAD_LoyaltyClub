@@ -1,8 +1,7 @@
 from http.server import BaseHTTPRequestHandler, HTTPServer
-from db.DB import DBClass
-from PD.PointsDefinition import PointsDefinition
 import json
-
+import urllib
+import ast
 
 class PointsDefinitionHandler(BaseHTTPRequestHandler):
 
@@ -109,7 +108,9 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
                 self.send_error(400, "too many parameters")
                 print("too many parameters")
             else:
-                customer_ids = params["customer_ids"]
+
+                customer_ids = urllib.parse.unquote(params["customer_ids"])
+                customer_ids = ast.literal_eval(customer_ids)
                 # get customer scores from DB
                 customer_scores = {}
                 for id in customer_ids:
@@ -125,7 +126,8 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
                 self.send_error(400, "too many parameters")
                 print("too many parameters")
             else:
-                customer_ids = params["recalculate_ids"]
+                customer_ids = urllib.parse.unquote(params["recalculate_ids"])
+                customer_ids = ast.literal_eval(customer_ids)
                 customer_scores = self.PD.cal_users_scores(customer_ids)
                 customer_scores = dict([(customer_ids[i], customer_scores[i]) for i in range(len(customer_ids))])
                 self.send_response(200)
@@ -187,7 +189,6 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
     def handle_add_rank(self, params):
         if PointsDefinitionHandler.fields_in_params(params, ["name", "rank_range", "off",
                                                              "monthly_limit", "free_shipping"]):
-            print(params)
             if len(params) > 5:
                 self.send_error(400, "too many parameters")
                 print("too many parameters")
@@ -210,6 +211,10 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
                     raise Exception()
                 if name == "" or len(rank_range) != 2:
                     raise Exception()
+                if name in self.PD.ranks:
+                    self.send_error(400, "rank with this name already exists")
+                    print("rank with this name already exists")
+                    return
                 self.PD.ranks[name] = {
                     "rank range": rank_range,
                     "off": off,
@@ -257,7 +262,6 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
             self.send_error(400, "wrong parameters format")
             print("wrong parameters format")
 
-
     @staticmethod
     def fields_in_params(params, fields):
         for field in fields:
@@ -274,8 +278,8 @@ class PointsDefinitionAPI:
         self.server = HTTPServer(server_address, PointsDefinitionHandler)
 
     def start_serving(self):
-        print('starting server on {}:{}'.format(self.server_address[0], self.server_address[1]))
+        print('starting PointsDefinitionAPI server on {}:{}'.format(self.server_address[0], self.server_address[1]))
         self.server.serve_forever()
 
-# s = PointsDefinitionAPI(('127.0.0.1', 8081), "DB", PointsDefinition("DB"))
+# s = PointsDefinitionAPI(('127.0.0.1', 8082), "DB", PointsDefinition("DB"))
 # s.start_serving()
