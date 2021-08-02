@@ -84,6 +84,38 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
             self.handle_customer_ids(params)
         elif self.path == "/rank-info":
             self.handle_rank_info(params)
+        elif self.path == "/rank":
+            self.handle_rank(params)
+        return
+
+    def handle_rank(self, params):
+        if PointsDefinitionHandler.fields_in_params(params, ["customer_ids"]):
+            if len(params) > 1:
+                self.send_error(400, "too many parameters")
+                print("too many parameters")
+            else:
+                customer_ids = urllib.parse.unquote(params["customer_ids"])
+                customer_ids = ast.literal_eval(customer_ids)
+                ranks = self.PD.get_users_ranks(customer_ids)
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.end_headers()
+                json_string = json.dumps(ranks)
+                self.wfile.write(bytes(json_string, 'utf-8'))
+        elif PointsDefinitionHandler.fields_in_params(params, ["first", "last"]):
+            if len(params) > 2:
+                self.send_error(400, "too many parameters")
+                print("too many parameters")
+            else:
+                first = int(params["first"])
+                last = int(params["last"])
+                ranks = self.PD.get_rank_range(first, last)
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.end_headers()
+                json_string = json.dumps(ranks)
+                self.wfile.write(bytes(json_string, 'utf-8'))
+
         return
 
     def handle_rank_info(self, params):
@@ -92,7 +124,9 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
                 self.send_error(400, "too many parameters")
                 print("too many parameters")
             else:
-                ranks_info = self.PD.get_rank_info(params["customer_ids"])
+                customer_ids = urllib.parse.unquote(params["customer_ids"])
+                customer_ids = ast.literal_eval(customer_ids)
+                ranks_info = self.PD.get_rank_info(customer_ids)
                 self.send_response(200)
                 self.send_header('Content-Type', 'application/json')
                 self.end_headers()
@@ -114,7 +148,7 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
                 # get customer scores from DB
                 customer_scores = {}
                 for id in customer_ids:
-                    customer_scores[id] = self.DB.get_customer_score(id)
+                    customer_scores[id] = self.DB.get_customer_score(id)[0]
                 self.send_response(200)
                 self.send_header('Content-Type', 'application/json')
                 self.end_headers()
@@ -280,6 +314,3 @@ class PointsDefinitionAPI:
     def start_serving(self):
         print('starting PointsDefinitionAPI server on {}:{}'.format(self.server_address[0], self.server_address[1]))
         self.server.serve_forever()
-
-# s = PointsDefinitionAPI(('127.0.0.1', 8082), "DB", PointsDefinition("DB"))
-# s.start_serving()

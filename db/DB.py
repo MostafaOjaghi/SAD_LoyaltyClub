@@ -140,7 +140,7 @@ class DBClass:
         cursor.execute(sql)
         result = cursor.fetchall()
         cursor.close()
-        result = [dict([('customerID', customerID), ('score', score)]) for (customerID, score) in result]
+        result = dict([(customerID, score) for (customerID, score) in result])
         return result
 
     def update_customer_score(self, user_id, score):
