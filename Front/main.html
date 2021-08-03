@@ -1,18 +1,40 @@
-<head>
+<!DOCTYPE html>
+<html lang="en">
 
-  <link rel="shortcut icon" href="images/favicon.png">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
 
   <link rel="stylesheet" href="main.css">
   <script src="main.js"></script>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+    crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+    integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+    crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+    crossorigin="anonymous"></script>
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
   <link rel="stylesheet" href="https://code.getmdl.io/1.1.1/material.cyan-light_blue.min.css">
-
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/css/bootstrap3/bootstrap-switch.min.css"
+    rel="stylesheet" />
+  <link href="path/custom.css" rel="stylesheet" type="text/css" />
 </head>
 
 <body>
-  <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header">
+
+
+  <div class="demo-layout mdl-layout mdl-js-layout mdl-layout--fixed-drawer mdl-layout--fixed-header" id="container">
     <header class="demo-header mdl-layout__header mdl-color--grey-100 mdl-color-text--grey-600">
       <div class="mdl-layout__header-row">
         <!-- <span class="brand">SAD Loyalty System</span> -->
@@ -38,10 +60,10 @@
       </header>
 
       <nav class="demo-navigation mdl-navigation mdl-color--blue-grey-800">
-        <a class="mdl-navigation__link" onclick="settings_clicked()"><i class="mdl-color-text--blue-grey-400 material-icons"
-            role="presentation">settings</i>Settings</a>
-        <a class="mdl-navigation__link" onclick="analytics_clicked()"><i class="mdl-color-text--blue-grey-400 material-icons"
-            role="presentation">analytics</i>Analytics</a>
+        <a class="mdl-navigation__link" onclick="settings_clicked()"><i
+            class="mdl-color-text--blue-grey-400 material-icons" role="presentation">settings</i>Settings</a>
+        <a class="mdl-navigation__link" onclick="analytics_clicked()"><i
+            class="mdl-color-text--blue-grey-400 material-icons" role="presentation">analytics</i>Analytics</a>
 
         <div class="mdl-layout-spacer"></div>
         <a class="mdl-navigation__link"><i class="mdl-color-text--blue-grey-400 material-icons"
@@ -51,9 +73,84 @@
 
     <!-- settings layout -->
     <main class="mdl-layout__content mdl-color--grey-100" id="settings-layout">
-      <div class="mdl-grid demo-content">
-        <i>settings layout</i>
+      <div class="settings-content">
+
+        <form id="score_form">
+          <h3 style="text-align: center;">change score parameters</h3>
+          <div class="form-row">
+            <div class="form-group col">
+              <!-- <label for="score_coefficient_input">score coefficient</label> -->
+              <input type="number" class="form-control" id="score_coefficient_input" placeholder="score coefficient"
+                min="0" max="1" step="0.05">
+            </div>
+
+            <div class="form-group col">
+              <!-- <label for="score_period_input">score_period</label> -->
+              <input type="number" class="form-control" id="score_period_input" placeholder="score period" min="0">
+            </div>
+
+            <div class="form-group col">
+              <!-- <label for="max_order_score_input">max order score</label> -->
+              <input type="number" class="form-control" id="max_order_score_input" placeholder="max order score" min="0"
+                step="10">
+            </div>
+          </div>
+          <div class="score_form_buttons">
+            <button type="submit" style="width: 100px;" class="btn btn-primary"
+              id="score_form_submit_button">submit</button>
+            <button type="" style="width: 100px;" class="btn btn-primary" id="score_form_reset_button">reset</button>
+          </div>
+        </form>
+
+        <form id="add_rank_form">
+          <h3 style="text-align: center;">add Rank</h3>
+          <div class="form-row justify-content-center">
+            <div class="form-group col-6">
+              <input type="text" class="form-control" id="rank_name_input" placeholder="rank name">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col">
+              <input type="number" class="form-control" id="off_input" placeholder="off" min="0" max="1" step="0.05">
+            </div>
+
+            <div class="form-group col">
+              <input type="number" class="form-control" id="monthly_limit_input" placeholder="monthly limit">
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div class="form-group col">
+              <div class="form-row">
+                <div class="col">
+                  <input type="number" class="form-control" id="rank_range_max_input" placeholder="range max" min="0"
+                    step="10">
+                </div>
+                <div class="col">
+                  <input type="number" class="form-control" id="rank_range_min_input" placeholder="range min" min="0"
+                    step="10">
+                </div>
+              </div>
+            </div>
+            <div class="col">
+              <div class="custom-control custom-switch">
+                <input class="custom-control-input" type="checkbox" id="free_shipping_input" name="free_shipping_input"
+                  value="free_shipping">
+                <label class="custom-control-label" for="free_shipping_input"> free shipping</label><br>
+              </div>
+            </div>
+          </div>
+
+          <div class="score_form_buttons">
+            <button type="submit" style="width: 100px;" class="btn btn-primary"
+              id="score_form_submit_button">submit</button>
+            <button type="" style="width: 100px;" class="btn btn-primary" id="score_form_reset_button">reset</button>
+          </div>
+        </form>
+
       </div>
+
     </main>
 
     <!-- analytics layout -->
@@ -65,7 +162,6 @@
     </main>
 
   </div>
-
 </body>
 
 </html>

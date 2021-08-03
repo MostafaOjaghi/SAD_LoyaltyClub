@@ -1,6 +1,9 @@
 html,
 body {
   font-family: 'Roboto', 'Helvetica', sans-serif;
+  min-height: 100%;
+   width: 100%;
+   height: 100%; /* NEW */
 }
 
 
@@ -114,4 +117,26 @@ body {
 
 a.mdl-navigation__link:hover{
   cursor: pointer;
+}
+
+.settings-content{
+  padding: 20px 100px 20px 100px;
+}
+
+.score_form_buttons{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
+#score_form{
+  
+}
+
+.container{
+    min-height: 100%;
+   width: 100%;
+   height: 100%; /* NEW */
 }
