@@ -115,6 +115,20 @@ class DBClass:
         if not sum:
             sum = 0
         return sum
+    
+    def get_a_months_sales(self, month):
+        sql = "SELECT sum(total_price) FROM orderT \
+                WHERE date_created >= DATE_FORMAT(CURRENT_DATE - INTERVAL %s MONTH, '%Y/%m/01')\
+                AND date_created < DATE_FORMAT(CURRENT_DATE - INTERVAL %s MONTH, '%Y/%m/01')"
+        val = (month + 1, month)
+        cursor = self.cnx.cursor()
+        cursor.execute(sql, val)
+        result = cursor.fetchall()
+        cursor.close()
+        sum = result[0][0]
+        if not sum:
+            sum = 0
+        return sum
 
     def get_userIDs(self):
         sql = 'SELECT customerID FROM customerT'
