@@ -74,3 +74,13 @@ class PointsDefinition:
             ranks[customer_ids[i]] = rank
         # ranks = dict((customer_ids[i], self.ranks[self.get_rank(scores[i])]) for i in range(len(customer_ids)))
         return ranks
+
+    def get_last_years_sales(self):
+        sales = []
+        for month in range(12):
+            months_sale = self.db.get_a_months_sales(month)
+            sales.append(months_sale)
+        return sales
+
+
+
