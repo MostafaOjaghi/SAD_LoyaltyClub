@@ -3,14 +3,12 @@ import json
 import urllib
 import ast
 
+
 class PointsDefinitionHandler(BaseHTTPRequestHandler):
 
     def do_POST(self):
         try:
-            # getting parameters
-            content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
-            post_data = self.rfile.read(content_length)  # <--- Gets the data itself
-            params = dict([tuple(s.split("=")) for s in post_data.decode("utf-8").split("&")])
+            params = self.get_params()
             # print(params)
         except:
             self.send_error(400, "no parameters sent")
@@ -25,10 +23,7 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
 
     def do_DELETE(self):
         try:
-            # getting parameters
-            content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
-            post_data = self.rfile.read(content_length)  # <--- Gets the data itself
-            params = dict([tuple(s.split("=")) for s in post_data.decode("utf-8").split("&")])
+            params = self.get_params()
             # print(params)
         except:
             self.send_error(400, "no parameters sent")
@@ -56,10 +51,7 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
 
     def do_PUT(self):
         try:
-            # getting parameters
-            content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
-            post_data = self.rfile.read(content_length)  # <--- Gets the data itself
-            params = dict([tuple(s.split("=")) for s in post_data.decode("utf-8").split("&")])
+            params = self.get_params()
             # print(params)
         except:
             self.send_error(400, "no parameters sent")
@@ -70,15 +62,16 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
 
     def do_GET(self):
         try:
-            # getting parameters
-            content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
-            post_data = self.rfile.read(content_length)  # <--- Gets the data itself
-            params = dict([tuple(s.split("=")) for s in post_data.decode("utf-8").split("&")])
+            params = self.get_params()
             # print(params)
         except:
-            self.send_error(400, "no parameters sent")
-            print("no parameters sent")
-            return
+            if self.path == "/rank":
+                self.send_ranks()
+                return
+            else:
+                self.send_error(400, "no parameters sent")
+                print("no parameters sent")
+                return
 
         if self.path == "/customers-score":
             self.handle_customer_ids(params)
@@ -87,6 +80,20 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
         elif self.path == "/rank":
             self.handle_rank(params)
         return
+
+    def send_ranks(self):
+        self.send_response(200)
+        self.send_header('Content-Type', 'application/json')
+        self.end_headers()
+        json_string = json.dumps(self.PD.ranks)
+        self.wfile.write(bytes(json_string, 'utf-8'))
+        return
+
+    def get_params(self):
+        content_length = int(self.headers['Content-Length'])  # <--- Gets the size of data
+        post_data = self.rfile.read(content_length)  # <--- Gets the data itself
+        params = dict([tuple(s.split("=")) for s in post_data.decode("utf-8").split("&")])
+        return params
 
     def handle_rank(self, params):
         if PointsDefinitionHandler.fields_in_params(params, ["customer_ids"]):

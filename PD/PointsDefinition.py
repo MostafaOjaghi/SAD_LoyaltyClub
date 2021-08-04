@@ -10,24 +10,24 @@ class PointsDefinition:
         self.max_order_score = 150
         self.db = db
         self.ranks = {
-            # "newbie": {
-            #     "rank range": [0, 100],
-            #     "off": 0,
-            #     "monthly limit": 0,
-            #     "free shipping": True
-            # },
-            # "bronze": {
-            #     "rank range": [100, 200],
-            #     "off": 0.1,
-            #     "monthly limit": 0,
-            #     "free shipping": True
-            # },
-            # "silver": {
-            #     "rank range": [200, 300],
-            #     "off": 0.2,
-            #     "monthly limit": 0,
-            #     "free shipping": True
-            # },
+            "newbie": {
+                "rank range": [0, 100],
+                "off": 0,
+                "monthly limit": 0,
+                "free shipping": True
+            },
+            "bronze": {
+                "rank range": [100, 200],
+                "off": 0.1,
+                "monthly limit": 0,
+                "free shipping": True
+            },
+            "silver": {
+                "rank range": [200, 300],
+                "off": 0.2,
+                "monthly limit": 0,
+                "free shipping": True
+            },
         }
 
     def get_rank(self, score):
