@@ -79,6 +79,8 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
             self.handle_rank_info(params)
         elif self.path == "/rank":
             self.handle_rank(params)
+        elif self.path == "/annual-income":
+            self.handle_annual_income(params)
         return
 
     def send_ranks(self):
@@ -94,6 +96,14 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
         post_data = self.rfile.read(content_length)  # <--- Gets the data itself
         params = dict([tuple(s.split("=")) for s in post_data.decode("utf-8").split("&")])
         return params
+
+    def handle_annual_income(self, params): #TODO
+        sales = self.PD.get_last_years_sales()
+        self.send_response(200)
+        self.send_header('Content-Type', 'application/json')
+        self.end_headers()
+        json_string = json.dumps(sales)
+        self.wfile.write(bytes(json_string, 'utf-8'))
 
     def handle_rank(self, params):
         if PointsDefinitionHandler.fields_in_params(params, ["customer_ids"]):
