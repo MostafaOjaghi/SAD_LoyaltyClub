@@ -68,6 +68,9 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
             if self.path == "/rank":
                 self.send_ranks()
                 return
+            elif self.path == "/annual-income":
+                self.handle_annual_income()
+                return
             else:
                 self.send_error(400, "no parameters sent")
                 print("no parameters sent")
@@ -79,8 +82,6 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
             self.handle_rank_info(params)
         elif self.path == "/rank":
             self.handle_rank(params)
-        elif self.path == "/annual-income":
-            self.handle_annual_income(params)
         return
 
     def send_ranks(self):
@@ -97,7 +98,7 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
         params = dict([tuple(s.split("=")) for s in post_data.decode("utf-8").split("&")])
         return params
 
-    def handle_annual_income(self, params): #TODO
+    def handle_annual_income(self):
         sales = self.PD.get_last_years_sales()
         self.send_response(200)
         self.send_header('Content-Type', 'application/json')
@@ -319,6 +320,10 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
             if field not in params:
                 return False
         return True
+
+    def end_headers (self):
+        self.send_header('Access-Control-Allow-Origin', '*')
+        BaseHTTPRequestHandler.end_headers(self)
 
 
 class PointsDefinitionAPI:

@@ -118,8 +118,8 @@ class DBClass:
     
     def get_a_months_sales(self, month):
         sql = "SELECT sum(total_price) FROM orderT \
-                WHERE date_created >= DATE_FORMAT(CURRENT_DATE - INTERVAL %s MONTH, '%Y/%m/01')\
-                AND date_created < DATE_FORMAT(CURRENT_DATE - INTERVAL %s MONTH, '%Y/%m/01')"
+                WHERE date >= DATE_FORMAT(CURRENT_DATE - INTERVAL %s MONTH, '%Y/%m/01')\
+                AND date < DATE_FORMAT(CURRENT_DATE - INTERVAL %s MONTH, '%Y/%m/01')"
         val = (month + 1, month)
         cursor = self.cnx.cursor()
         cursor.execute(sql, val)
@@ -128,7 +128,7 @@ class DBClass:
         sum = result[0][0]
         if not sum:
             sum = 0
-        return sum
+        return int(sum)
 
     def get_userIDs(self):
         sql = 'SELECT customerID FROM customerT'

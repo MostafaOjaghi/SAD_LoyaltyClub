@@ -1,4 +1,6 @@
 import numpy as np
+import datetime
+from dateutil.relativedelta import relativedelta
 
 
 class PointsDefinition:
@@ -79,7 +81,8 @@ class PointsDefinition:
         sales = []
         for month in range(12):
             months_sale = self.db.get_a_months_sales(month)
-            sales.append(months_sale)
+            date = datetime.date.today().replace(day=1)+relativedelta(months=-month-1)
+            sales.append({'date': date.strftime('%Y/%m/%d'),'sale': months_sale})
         return sales
 
 

@@ -29,6 +29,45 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/css/bootstrap3/bootstrap-switch.min.css"
     rel="stylesheet" />
   <link href="path/custom.css" rel="stylesheet" type="text/css" />
+  <script type="text/javascript">
+    window.onload = function () {
+      points = []
+      fetch("http://127.0.0.1:8082/annual-income").then(
+      res => {
+        res.json().then(
+          data => {
+            console.log(data);
+            if (data.length > 0) {
+
+              var temp = "";
+              data.forEach((itemData) => {
+                points.push({ x: new Date(Date.parse(itemData.date)), y: itemData.sale });
+              });
+            }
+            console.log("my data", points);
+            console.log("sample data", points);
+
+            var chart = new CanvasJS.Chart("chartContainer",
+            {
+              title:{
+              text: "Earthquakes - per month"
+              },
+              data: [
+              {
+                type: "line",
+        
+                dataPoints: points
+              }
+              ]
+            });
+        
+            chart.render();
+          }
+        )
+      })
+    }
+    </script>
+   <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </head>
 
 <body>
@@ -157,7 +196,8 @@
     <main class="mdl-layout__content mdl-color--grey-100 " id="analytics-layout" style="display: none;">
       <div class="mdl-grid demo-content">
         <i>analytics layout</i>
-
+        <div id="chartContainer" style="height: 300px; width: 100%;">
+        </div>
       </div>
     </main>
 
