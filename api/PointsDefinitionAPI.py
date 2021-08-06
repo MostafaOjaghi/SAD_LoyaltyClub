@@ -9,7 +9,7 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
     def do_POST(self):
         try:
             params = self.get_params()
-            # print(params)
+            print(params)
         except:
             self.send_error(400, "no parameters sent")
             print("no parameters sent")
