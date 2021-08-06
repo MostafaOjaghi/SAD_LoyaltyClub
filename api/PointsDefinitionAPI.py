@@ -218,7 +218,7 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
                         if len(rank_range) != 2:
                             raise Exception()
                     if have_off:
-                        off = float(params["off"])
+                        off = float(params["off"]) / 100
                     if have_limit:
                         monthly_limit = float(params["monthly_limit"])
                     if have_freeshipping:
@@ -254,7 +254,7 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
             try:
                 name = params["name"]
                 rank_range = [float(x) for x in params["rank_range"].split("_")]
-                off = float(params["off"])
+                off = float(params["off"]) / 100
                 monthly_limit = float(params["monthly_limit"])
                 free_shipping = params["free_shipping"]
                 if free_shipping == "true" or free_shipping == "false":
