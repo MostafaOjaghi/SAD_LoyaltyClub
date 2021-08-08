@@ -6,7 +6,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
+  <title>Loyalty System</title>
 
   <link rel="stylesheet" href="main.css">
   <script src="main.js"></script>
@@ -29,44 +29,6 @@
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/css/bootstrap3/bootstrap-switch.min.css"
     rel="stylesheet" />
   <link href="path/custom.css" rel="stylesheet" type="text/css" />
-  <script type="text/javascript">
-    window.onload = function () {
-      points = []
-      fetch("http://127.0.0.1:8082/annual-income").then(
-        res => {
-          res.json().then(
-            data => {
-              console.log(data);
-              if (data.length > 0) {
-
-                var temp = "";
-                data.forEach((itemData) => {
-                  points.push({ x: new Date(Date.parse(itemData.date)), y: itemData.sale });
-                });
-              }
-              console.log("my data", points);
-              console.log("sample data", points);
-
-              var chart = new CanvasJS.Chart("chartContainer",
-                {
-                  title: {
-                    text: "Earthquakes - per month"
-                  },
-                  data: [
-                    {
-                      type: "line",
-
-                      dataPoints: points
-                    }
-                  ]
-                });
-
-              chart.render();
-            }
-          )
-        })
-    }
-  </script>
   <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </head>
 
@@ -143,7 +105,7 @@
     </div>
 
     <!-- settings layout -->
-    <main class="mdl-layout__content mdl-color--grey-100" id="settings-layout">
+    <main class="mdl-layout__content" id="settings-layout">
       <div class="settings-content">
 
         <form id="score_form">
@@ -224,8 +186,81 @@
           </div>
         </form>
 
+        <section>
+          <table cellpadding="0" cellspacing="0">
+            <thead class="tbl-header">
+              <tr>
+                <th>name</th>
+                <th>off</th>
+                <th>range</th>
+                <th>monthly limit</th>
+                <th>free shipping</th>
+                <th>delete</th>
+              </tr>
+            </thead>
+
+            <tbody class="tbl-content" id="ranks-table-content">
+              <tr>
+                <td>gold</td>
+                <td>30% </td>
+                <td>2000-3000</td>
+                <td>100000</td>
+                <td>True</td>
+                <td><button type="button" class="close" aria-label="Close"><span
+                      aria-hidden="true">&times;</span></button></td>
+              </tr>
+              <tr>
+                <td>silver</td>
+                <td>20% </td>
+                <td>1000-2000</td>
+                <td>200000</td>
+                <td>False</td>
+                <td><button type="button" class="close" aria-label="Close"><span
+                      aria-hidden="true">&times;</span></button></td>
+              </tr>
+              <tr>
+                <td>bronze</td>
+                <td>10% </td>
+                <td>0-1000</td>
+                <td>100000</td>
+                <td>True</td>
+                <td><button type="button" class="close" aria-label="Close"><span
+                      aria-hidden="true">&times;</span></button></td>
+              </tr>
+            </tbody>
+          </table>
       </div>
 
+      <!-- <div class="tbl-content">
+            <table cellpadding="0" cellspacing="0" border="0">
+              <tbody>
+                <tr>
+                  <td>AAC</td>
+                  <td>AUSTRALIAN COMPANY </td>
+                  <td>$1.38</td>
+                  <td>+2.01</td>
+                  <td><button type="button" class="close" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button></td>
+                </tr>
+                <tr>
+                  <td>AAD</td>
+                  <td>AUSENCO</td>
+                  <td>$2.38</td>
+                  <td>-0.01</td>
+                  <td>-1.36%</td>
+                </tr>
+                <tr>
+                  <td>AAX</td>
+                  <td>ADELAIDE</td>
+                  <td>$3.22</td>
+                  <td>+0.01</td>
+                  <td>+1.36%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div> -->
+      </section>
     </main>
 
     <!-- analytics layout -->
