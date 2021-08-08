@@ -233,8 +233,9 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
                         monthly_limit = float(params["monthly_limit"])
                     if have_freeshipping:
                         free_shipping = params["free_shipping"]
+                        print(free_shipping)
                         if free_shipping == "true" or free_shipping == "false":
-                            free_shipping = True if params["free_shipping"] == "True" else False
+                            free_shipping = True if free_shipping == "true" else False
                         else:
                             raise Exception()
                     rank["rank range"] = rank_range

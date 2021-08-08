@@ -152,6 +152,8 @@ table{
   width:100%;
   padding: 50px;
   /* table-layout: fixed; */
+  table-layout: auto;
+
 }
 .tbl-header{
   background-color: rgba(255,255,255,0.3);
@@ -214,4 +216,13 @@ button.close:focus{
 
 button.close:not(:disabled):not(.disabled):focus {
   opacity: 0.2;
+}
+
+.tbl-content i.fa{
+  cursor: pointer;
+}
+
+.tbl-content i.fa:hover{
+  /* background-color: red; */
+  color: green;
 }

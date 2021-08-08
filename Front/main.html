@@ -19,6 +19,8 @@
   <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
     integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
     crossorigin="anonymous"></script>
+  <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+
   <link rel="stylesheet"
     href="https://fonts.googleapis.com/css?family=Roboto:regular,bold,italic,thin,light,bolditalic,black,medium&amp;lang=en">
   <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
@@ -28,7 +30,7 @@
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/css/bootstrap3/bootstrap-switch.min.css"
     rel="stylesheet" />
-  <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 
 <body>
@@ -51,7 +53,7 @@
 
   <div class="alert alert-success shadow my-3" role="alert" style="border-radius: 3px" id="success_alert">
     <a class="close" href="#" onclick="close_alert()">&times;</a>
-    
+
 
     <div class="text-center">
       <svg width="3em" height="3em" viewBox="0 0 16 16" class="m-1 bi bi-shield-fill-check" fill="currentColor"
@@ -194,6 +196,7 @@
                 <th>monthly limit</th>
                 <th>free shipping</th>
                 <th>delete</th>
+                <th>update</th>
               </tr>
             </thead>
 
@@ -205,9 +208,12 @@
                 <td>100000</td>
                 <td>True</td>
                 <td><button type="button" class="close" aria-label="Close" data-toggle="modal"
-                    data-target="#exampleModalCenter"
-                    onclick="focused_rank = this.parentElement.parentElement.firstElementChild.innerHTML"><span
+                    data-target="#deleteRankModal"
+                    onclick="focused_add_rank = this.parentElement.parentElement.firstElementChild.innerHTML"><span
                       aria-hidden="true">&times;</span></button></td>
+                <td><i class="fa fa-edit" data-toggle="modal" data-target="#updateRankModal"
+                    onclick="focused_update_rank = this.parentElement.parentElement.firstElementChild.innerHTML"></i>
+                </td>
               </tr>
               <tr>
                 <td>silver</td>
@@ -216,9 +222,12 @@
                 <td>200000</td>
                 <td>False</td>
                 <td><button type="button" class="close" aria-label="Close" data-toggle="modal"
-                  data-target="#exampleModalCenter"
-                  onclick="focused_rank = this.parentElement.parentElement.firstElementChild.innerHTML"><span
-                    aria-hidden="true">&times;</span></button></td>
+                    data-target="#deleteRankModal"
+                    onclick="focused_add_rank = this.parentElement.parentElement.firstElementChild.innerHTML"><span
+                      aria-hidden="true">&times;</span></button></td>
+                <td><i class="fa fa-edit" data-toggle="modal" data-target="#updateRankModal"
+                    onclick="focused_update_rank = this.parentElement.parentElement.firstElementChild.innerHTML"></i>
+                </td>
               </tr>
               <tr>
                 <td>bronze</td>
@@ -227,9 +236,12 @@
                 <td>100000</td>
                 <td>True</td>
                 <td><button type="button" class="close" aria-label="Close" data-toggle="modal"
-                  data-target="#exampleModalCenter"
-                  onclick="focused_rank = this.parentElement.parentElement.firstElementChild.innerHTML"><span
-                    aria-hidden="true">&times;</span></button></td>
+                    data-target="#deleteRankModal"
+                    onclick="focused_add_rank = this.parentElement.parentElement.firstElementChild.innerHTML"><span
+                      aria-hidden="true">&times;</span></button></td>
+                <td><i class="fa fa-edit" data-toggle="modal" data-target="#updateRankModal"
+                    onclick="focused_update_rank = this.parentElement.parentElement.firstElementChild.innerHTML"></i>
+                </td>
               </tr>
             </tbody>
           </table>
@@ -247,8 +259,8 @@
 
   </div>
 
-  <!-- Modal -->
-  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  <!-- delete rank Modal -->
+  <div class="modal fade" id="deleteRankModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
     aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
       <div class="modal-content">
@@ -264,6 +276,61 @@
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
           <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="delete_rank()">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- update rank Modal -->
+  <div class="modal fade" id="updateRankModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">update rank</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form id="update_rank_form">
+            <div class="form-row">
+              <div class="form-group col">
+                <input type="number" class="form-control" id="update_off_input" placeholder="off" min="0" max="100" step="1">
+              </div>
+  
+              <div class="form-group col">
+                <input type="number" class="form-control" id="update_monthly_limit_input" placeholder="monthly limit">
+              </div>
+            </div>
+  
+            <div class="form-row">
+              <div class="form-group col">
+                <div class="form-row">
+                  <div class="col">
+                    <input type="number" class="form-control" id="update_rank_range_min_input" placeholder="range min" min="0"
+                      step="10">
+                  </div>
+                  <div class="col">
+                    <input type="number" class="form-control" id="update_rank_range_max_input" placeholder="range max" min="0"
+                      step="10">
+                  </div>
+                </div>
+              </div>
+              <div class="col">
+                <div class="custom-control custom-switch">
+                  <input class="custom-control-input" type="checkbox" id="update_free_shipping_input" name="free_shipping_input"
+                    value="free_shipping">
+                  <label class="custom-control-label" for="update_free_shipping_input"> free shipping</label><br>
+                </div>
+              </div>
+            </div>
+  
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-success" data-dismiss="modal" onclick="update_rank()">Update</button>
         </div>
       </div>
     </div>

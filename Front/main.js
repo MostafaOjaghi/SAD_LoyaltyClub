@@ -1,5 +1,6 @@
 var PD_API_URL = "http://localhost:8082"
-var focused_rank = null
+var focused_add_rank = null
+var focused_update_rank = null
 
 window.onload = function () {
   points = []
@@ -76,9 +77,12 @@ function replace_ranks(ranks) {
     <td>${ranks[key]["monthly limit"]}</td>
     <td>${ranks[key]["free shipping"]}</td>
     <td><button type="button" class="close" aria-label="Close" data-toggle="modal"
-                  data-target="#exampleModalCenter"
-                  onclick="focused_rank = this.parentElement.parentElement.firstElementChild.innerHTML"><span
+                  data-target="#deleteRankModal"
+                  onclick="focused_add_rank = this.parentElement.parentElement.firstElementChild.innerHTML"><span
                     aria-hidden="true">&times;</span></button></td>
+    <td><i class="fa fa-edit" data-toggle="modal" data-target="#updateRankModal"
+      onclick="focused_update_rank = this.parentElement.parentElement.firstElementChild.innerHTML"></i>
+    </td>
   </tr>`
   })
   document.getElementById("ranks-table-content").innerHTML = ranks_table_html
@@ -102,7 +106,6 @@ function submite_score_form() {
   max_order_score = score_form["max_order_score_input"].value
   let data = [score_coefficient ? `score_coefficient=${score_coefficient}` : "", score_period ? `score_period=${score_period}` : "", max_order_score ? `max_order_score=${max_order_score}` : ""]
   data = data.filter(x => x != "").join("&")
-  console.log(data)
   var request = {
     method: 'POST',
     headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
@@ -188,12 +191,12 @@ function submite_add_rank_form() {
   })
 }
 
-function delete_rank(){
+function delete_rank() {
   close_alert()
-  let data = `name=${focused_rank}`
+  let data = `name=${focused_add_rank}`
   var request = {
     method: 'DELETE',
-    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8;'},
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8;' },
     body: data
   };
   fetch(PD_API_URL + "/rank", request).then(function (response) {
@@ -205,6 +208,61 @@ function delete_rank(){
       elem.style.opacity = "1";
       elem.style.visibility = "visible";
       console.log("rank deleted successfuly.")
+      reload_ranks_table()
+
+    } else {
+      elem = document.getElementById("danger_alert")
+      elem.style.opacity = "1";
+      elem.style.visibility = "visible";
+      document.getElementById("error_message").innerHTML = response.statusText
+      console.log(response.statusText)
+    }
+  }).catch(function (error) {
+    console.log("Error: " + error);
+  })
+}
+
+function update_rank() {
+  let update_rank_form = document.forms["update_rank_form"];
+  rank_name = focused_update_rank
+  off = update_rank_form["update_off_input"].value
+  monthly_limit = update_rank_form["update_monthly_limit_input"].value
+  rank_range_max = update_rank_form["update_rank_range_max_input"].value
+  rank_range_min = update_rank_form["update_rank_range_min_input"].value
+  free_shipping = update_rank_form["update_free_shipping_input"].checked
+  if (!rank_name && !off && !monthly_limit && !rank_range_max && !rank_range_min) {
+    elem = document.getElementById("danger_alert")
+    elem.style.opacity = "1";
+    elem.style.visibility = "visible";
+    document.getElementById("error_message").innerHTML = "no field to update"
+    return
+  }
+  if ((rank_range_max && !rank_range_min) || (!rank_range_max && rank_range_min)){
+    elem = document.getElementById("danger_alert")
+    elem.style.opacity = "1";
+    elem.style.visibility = "visible";
+    document.getElementById("error_message").innerHTML = "can't fill just one rank range field"
+    return
+  }
+  let data = [`name=${rank_name}`, off ? `off=${off}` : "", monthly_limit ? `monthly_limit=${monthly_limit}` : "", 
+              rank_range_min&&rank_range_max ? `rank_range=${rank_range_min}_${rank_range_max}` : "", free_shipping ? `free_shipping=true` : `free_shipping=false`]
+  data = data.filter(x => x != "").join("&")
+  console.log(data)  
+  var request = {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+    body: data
+  };
+  fetch(PD_API_URL + "/rank", request).then(function (response) {
+    stat = response.status
+    if (stat == 200) {
+      // location.replace(url)
+      elem = document.getElementById("success_alert")
+      document.getElementById("success_message").innerHTML = "rank updated successfuly."
+      elem.style.opacity = "1";
+      elem.style.visibility = "visible";
+      console.log("rank updated successfuly.")
+      update_rank_form.reset()
       reload_ranks_table()
 
     } else {
