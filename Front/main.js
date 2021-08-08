@@ -1,4 +1,5 @@
-PD_API_URL = "http://localhost:8082"
+var PD_API_URL = "http://localhost:8082"
+var focused_rank = null
 
 window.onload = function () {
   points = []
@@ -37,6 +38,7 @@ window.onload = function () {
     })
 
   reload_ranks_table()
+
 }
 
 function reload_ranks_table() {
@@ -66,21 +68,21 @@ function reload_ranks_table() {
 
 function replace_ranks(ranks) {
   ranks_table_html = ""
-  Object.keys(ranks).forEach(function(key) {
+  Object.keys(ranks).forEach(function (key) {
     ranks_table_html += `<tr>
     <td>${key}</td>
-    <td>${ranks[key]["off"]}</td>
+    <td>${ranks[key]["off"] * 100}%</td>
     <td>${ranks[key]["rank range"][0]}-${ranks[key]["rank range"][1]}</td>
     <td>${ranks[key]["monthly limit"]}</td>
     <td>${ranks[key]["free shipping"]}</td>
-    <td><button type="button" class="close" aria-label="Close"><span
-          aria-hidden="true">&times;</span></button></td>
+    <td><button type="button" class="close" aria-label="Close" data-toggle="modal"
+                  data-target="#exampleModalCenter"
+                  onclick="focused_rank = this.parentElement.parentElement.firstElementChild.innerHTML"><span
+                    aria-hidden="true">&times;</span></button></td>
   </tr>`
   })
   document.getElementById("ranks-table-content").innerHTML = ranks_table_html
 }
-
-
 
 function settings_clicked() {
   document.getElementById("settings-layout").style.display = "block";
@@ -172,6 +174,38 @@ function submite_add_rank_form() {
       elem.style.visibility = "visible";
       console.log("rank added successfuly.")
       add_rank_form.reset()
+      reload_ranks_table()
+
+    } else {
+      elem = document.getElementById("danger_alert")
+      elem.style.opacity = "1";
+      elem.style.visibility = "visible";
+      document.getElementById("error_message").innerHTML = response.statusText
+      console.log(response.statusText)
+    }
+  }).catch(function (error) {
+    console.log("Error: " + error);
+  })
+}
+
+function delete_rank(){
+  close_alert()
+  let data = `name=${focused_rank}`
+  var request = {
+    method: 'DELETE',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8;'},
+    body: data
+  };
+  fetch(PD_API_URL + "/rank", request).then(function (response) {
+    stat = response.status
+    if (stat == 200) {
+      // location.replace(url)
+      elem = document.getElementById("success_alert")
+      document.getElementById("success_message").innerHTML = "rank deleted successfuly."
+      elem.style.opacity = "1";
+      elem.style.visibility = "visible";
+      console.log("rank deleted successfuly.")
+      reload_ranks_table()
 
     } else {
       elem = document.getElementById("danger_alert")

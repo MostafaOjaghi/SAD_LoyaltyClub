@@ -6,6 +6,15 @@ import ast
 
 class PointsDefinitionHandler(BaseHTTPRequestHandler):
 
+    def do_OPTIONS(self):
+        self.send_response(200)
+        self.send_header('Allow', 'GET, OPTIONS')
+        self.send_header('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS')
+        self.send_header('Access-Control-Allow-Origin', '*')
+        self.send_header('Access-Control-Allow-Headers', 'X-Request, X-Requested-With')
+        self.send_header('Content-Length', '0')
+        BaseHTTPRequestHandler.end_headers(self)
+
     def do_POST(self):
         try:
             params = self.get_params()
@@ -42,10 +51,11 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
                     self.send_error(400, "no rank with this name")
                     print("no rank with this name")
                 else:
-                    print(self.PD.ranks)
                     del self.PD.ranks[name]
-                    print(self.PD.ranks)
                     self.send_response(200)
+                    # self.send_header('Access-Control-Allow-Origin', '*')
+                    # self.send_header('Access-Control-Allow-Credentials', 'true')
+                    # self.send_header('Access-Control-Allow-Methods', 'GET, POST, PATCH, PUT, DELETE, OPTIONS')
                     self.end_headers()
         return
 
@@ -321,7 +331,7 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
                 return False
         return True
 
-    def end_headers (self):
+    def end_headers(self):
         self.send_header('Access-Control-Allow-Origin', '*')
         BaseHTTPRequestHandler.end_headers(self)
 

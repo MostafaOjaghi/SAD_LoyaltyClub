@@ -202,3 +202,16 @@ td .close{
   justify-self: center;
   background-color: red;
 }
+
+div.fade {
+  opacity: 1;
+}
+
+button.close:focus{
+  outline: none;
+  color: #000;
+}
+
+button.close:not(:disabled):not(.disabled):focus {
+  opacity: 0.2;
+}

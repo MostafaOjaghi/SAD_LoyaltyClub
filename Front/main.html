@@ -28,7 +28,6 @@
   <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css" rel="stylesheet" />
   <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-switch/3.3.2/css/bootstrap3/bootstrap-switch.min.css"
     rel="stylesheet" />
-  <link href="path/custom.css" rel="stylesheet" type="text/css" />
   <script type="text/javascript" src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
 </head>
 
@@ -51,9 +50,8 @@
 
 
   <div class="alert alert-success shadow my-3" role="alert" style="border-radius: 3px" id="success_alert">
-    <button type="button" class="close" data-dismiss="alert" aria-label="Close" onclick="close_alert()">
-      <span aria-hidden="true" style="color:#155724">&times;</span>
-    </button>
+    <a class="close" href="#" onclick="close_alert()">&times;</a>
+    
 
     <div class="text-center">
       <svg width="3em" height="3em" viewBox="0 0 16 16" class="m-1 bi bi-shield-fill-check" fill="currentColor"
@@ -206,7 +204,9 @@
                 <td>2000-3000</td>
                 <td>100000</td>
                 <td>True</td>
-                <td><button type="button" class="close" aria-label="Close"><span
+                <td><button type="button" class="close" aria-label="Close" data-toggle="modal"
+                    data-target="#exampleModalCenter"
+                    onclick="focused_rank = this.parentElement.parentElement.firstElementChild.innerHTML"><span
                       aria-hidden="true">&times;</span></button></td>
               </tr>
               <tr>
@@ -215,8 +215,10 @@
                 <td>1000-2000</td>
                 <td>200000</td>
                 <td>False</td>
-                <td><button type="button" class="close" aria-label="Close"><span
-                      aria-hidden="true">&times;</span></button></td>
+                <td><button type="button" class="close" aria-label="Close" data-toggle="modal"
+                  data-target="#exampleModalCenter"
+                  onclick="focused_rank = this.parentElement.parentElement.firstElementChild.innerHTML"><span
+                    aria-hidden="true">&times;</span></button></td>
               </tr>
               <tr>
                 <td>bronze</td>
@@ -224,42 +226,14 @@
                 <td>0-1000</td>
                 <td>100000</td>
                 <td>True</td>
-                <td><button type="button" class="close" aria-label="Close"><span
-                      aria-hidden="true">&times;</span></button></td>
+                <td><button type="button" class="close" aria-label="Close" data-toggle="modal"
+                  data-target="#exampleModalCenter"
+                  onclick="focused_rank = this.parentElement.parentElement.firstElementChild.innerHTML"><span
+                    aria-hidden="true">&times;</span></button></td>
               </tr>
             </tbody>
           </table>
       </div>
-
-      <!-- <div class="tbl-content">
-            <table cellpadding="0" cellspacing="0" border="0">
-              <tbody>
-                <tr>
-                  <td>AAC</td>
-                  <td>AUSTRALIAN COMPANY </td>
-                  <td>$1.38</td>
-                  <td>+2.01</td>
-                  <td><button type="button" class="close" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button></td>
-                </tr>
-                <tr>
-                  <td>AAD</td>
-                  <td>AUSENCO</td>
-                  <td>$2.38</td>
-                  <td>-0.01</td>
-                  <td>-1.36%</td>
-                </tr>
-                <tr>
-                  <td>AAX</td>
-                  <td>ADELAIDE</td>
-                  <td>$3.22</td>
-                  <td>+0.01</td>
-                  <td>+1.36%</td>
-                </tr>
-              </tbody>
-            </table>
-          </div> -->
       </section>
     </main>
 
@@ -271,6 +245,28 @@
       </div>
     </main>
 
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Delete ranks</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          are you sure you want to delete this rank?
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-danger" data-dismiss="modal" onclick="delete_rank()">Delete</button>
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 
