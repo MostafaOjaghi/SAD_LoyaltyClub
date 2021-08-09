@@ -117,11 +117,15 @@ class DBClass:
         return sum
     
     def get_number_of_customer_purchases(self):
-        sql = "SELECT COUNT(*) FROM orderT GROUP BY orderT.customerID"
+        sql = "SELECT COUNT(*) AS counter, new_table.my_number \
+                FROM (SELECT COUNT(*) AS my_number \
+                FROM orderT GROUP BY orderT.customerID) AS new_table \
+                GROUP BY new_table.my_number"
         cursor = self.cnx.cursor()
         cursor.execute(sql)
         result = cursor.fetchall()
-        result = [count for (count,) in result]
+        result = [dict([('counter', counter), ('my_number', my_number)])
+                for (counter, my_number) in result]
         cursor.close()
         return result
     

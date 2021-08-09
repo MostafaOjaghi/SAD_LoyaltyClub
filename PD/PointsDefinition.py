@@ -85,5 +85,24 @@ class PointsDefinition:
             sales.append({'date': date.strftime('%Y/%m/%d'),'sale': months_sale})
         return sales
 
+    def get_number_of_customer_purchases(self):
+        return self.db.get_number_of_customer_purchases()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
