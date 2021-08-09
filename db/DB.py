@@ -116,6 +116,15 @@ class DBClass:
             sum = 0
         return sum
     
+    def get_number_of_customer_purchases(self):
+        sql = "SELECT COUNT(*) FROM orderT GROUP BY orderT.customerID"
+        cursor = self.cnx.cursor()
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        result = [count for (count,) in result]
+        cursor.close()
+        return result
+    
     def get_a_months_sales(self, month):
         sql = "SELECT sum(total_price) FROM orderT \
                 WHERE date >= DATE_FORMAT(CURRENT_DATE - INTERVAL %s MONTH, '%Y/%m/01')\
