@@ -81,6 +81,9 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
             elif self.path == "/annual-income":
                 self.handle_annual_income()
                 return
+            elif self.path == "/number-of-orders":
+                self.handle_number_of_orders()
+                return
             else:
                 self.send_error(400, "no parameters sent")
                 print("no parameters sent")
@@ -114,6 +117,14 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
         self.send_header('Content-Type', 'application/json')
         self.end_headers()
         json_string = json.dumps(sales)
+        self.wfile.write(bytes(json_string, 'utf-8'))
+
+    def handle_number_of_orders(self):
+        number_of_orders = self.PD.get_number_of_customer_purchases()
+        self.send_response(200)
+        self.send_header('Content-Type', 'application/json')
+        self.end_headers()
+        json_string = json.dumps(number_of_orders)
         self.wfile.write(bytes(json_string, 'utf-8'))
 
     def handle_rank(self, params):
