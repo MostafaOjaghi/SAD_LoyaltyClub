@@ -116,13 +116,16 @@ class DBClass:
             sum = 0
         return sum
     
-    def get_number_of_customer_purchases(self):
+    def get_number_of_customer_purchases(self, month):
         sql = "SELECT COUNT(*) AS counter, new_table.my_number \
                 FROM (SELECT COUNT(*) AS my_number \
-                FROM orderT GROUP BY orderT.customerID) AS new_table \
+                FROM orderT WHERE date >= DATE_FORMAT(CURRENT_DATE - INTERVAL %s MONTH, '%Y/%m/01')\
+                AND date < DATE_FORMAT(CURRENT_DATE - INTERVAL %s MONTH, '%Y/%m/01')\
+                GROUP BY orderT.customerID) AS new_table \
                 GROUP BY new_table.my_number"
         cursor = self.cnx.cursor()
-        cursor.execute(sql)
+        val = (month + 1, month)
+        cursor.execute(sql, val)
         result = cursor.fetchall()
         result = [dict([('counter', counter), ('my_number', my_number)])
                 for (counter, my_number) in result]
