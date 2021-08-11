@@ -86,7 +86,10 @@ class PointsDefinition:
         return sales
 
     def get_number_of_customer_purchases(self):
-        return self.db.get_number_of_customer_purchases()
+        customer_purchases_last_months = []
+        for month in range(3):
+            customer_purchases_last_months.append(self.db.get_number_of_customer_purchases(month))
+        return customer_purchases_last_months
 
 
 
