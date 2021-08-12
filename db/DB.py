@@ -183,6 +183,7 @@ class DBClass:
 
 
 if __name__ == "__main__":
+    from random import randint
     db = DBClass()
 
     # customer = {
@@ -200,19 +201,35 @@ if __name__ == "__main__":
     # }
     # db.insert_order(order)
 
-    orders = db.get_orders('1233')
-    print('get_orders:', orders)
+    # for i in range(10):
+    #     customer = {
+    #         'customerID' : str(i),
+    #         'email' : 'a@b.c',
+    #         'score' : '0',
+    #     }
+    #     db.insert_customer(customer)
+    #     for j in range(randint(5,25)):
+    #         order = {
+    #             'orderID': str(1000 * i + j),
+    #             'customerID': str(i),
+    #             'date': f'2021-{randint(1, 7)}-{randint(1,25)}',
+    #             'total_price': str(randint(1,500)),
+    #         }
+    #         db.insert_order(order)
 
-    users = db.get_userIDs()
-    print('get_userIDs:', users)
+    # orders = db.get_orders('1233')
+    # print('get_orders:', orders)
 
-    price = db.get_sum_of_purchases('1233', 1)
-    print('sum of purchases: ', price)
+    # users = db.get_userIDs()
+    # print('get_userIDs:', users)
 
-    purchases = db.get_recent_purchases('1233', 10)
-    print('purchases: ', purchases)
+    # price = db.get_sum_of_purchases('1233', 1)
+    # print('sum of purchases: ', price)
 
-    db.update_customer_score('1233', 5)
+    # purchases = db.get_recent_purchases('1233', 10)
+    # print('purchases: ', purchases)
 
-    scores = db.get_all_scores()
-    print('scores:', scores)
+    # db.update_customer_score('1233', 5)
+
+    # scores = db.get_all_scores()
+    # print('scores:', scores)

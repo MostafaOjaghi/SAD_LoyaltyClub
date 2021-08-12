@@ -16,8 +16,6 @@ window.onload = function () {
               points.push({ x: new Date(Date.parse(itemData.date)), y: itemData.sale });
             });
           }
-          console.log("my data", points);
-          console.log("sample data", points);
 
           var chart = new CanvasJS.Chart("chartContainer_1",
             {
@@ -27,7 +25,6 @@ window.onload = function () {
               data: [
                 {
                   type: "line",
-
                   dataPoints: points
                 }
               ]
@@ -38,41 +35,48 @@ window.onload = function () {
       )
     })
 
-//
-//  fetch("http://127.0.0.1:8082/number-of-orders").then(
-//    res => {
-//      res.json().then(
-//        data => {
-//          console.log(data);
-//          if (data.length > 0) {
-//
-//            var temp = "";
-//            data.forEach((itemData) => {
-//              points.push({ x: itemData.my_number, y: itemData.counter });
-//            });
-//          }
-//          console.log("my data", points);
-//          console.log("sample data", points);
-//
-//          var chart = new CanvasJS.Chart("chartContainer_1",
-//            {
-//              title: {
-//                text: "number of customers - per number of orders"
-//              },
-//              data: [
-//                {
-//                  type: "line",
-//
-//                  dataPoints: points
-//                }
-//              ]
-//            });
-//
-//          chart.render();
-//        }
-//      )
-//    })
-//  
+  order_points = [[], [], []]
+  fetch("http://127.0.0.1:8082/number-of-orders").then(
+    res => {
+      res.json().then(
+        data => {
+          console.log(data);
+          data[0].forEach((itemData) => {
+            order_points[0].push({ x: itemData.my_number, y: itemData.counter });
+          });
+          data[1].forEach((itemData) => {
+            order_points[1].push({ x: itemData.my_number, y: itemData.counter });
+          });
+          data[2].forEach((itemData) => {
+            order_points[2].push({ x: itemData.my_number, y: itemData.counter });
+          });
+          console.log("number of orders", order_points);
+
+          var chart = new CanvasJS.Chart("chartContainer_2",
+            {
+              title: {
+                text: "number of customers - per number of orders"
+              },
+              data: [
+                {
+                  type: "line",
+                  dataPoints: order_points[0]
+                },
+                {
+                  type: "line",
+                  dataPoints: order_points[1]
+                },{
+                  type: "line",
+                  dataPoints: order_points[2]
+                },
+              ]
+            });
+
+          chart.render();
+        }
+      )
+    })
+
   reload_ranks_table()
 
 }
