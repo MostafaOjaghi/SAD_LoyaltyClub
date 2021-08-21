@@ -130,6 +130,7 @@ class DBClass:
         result = [dict([('counter', counter), ('my_number', my_number)])
                 for (counter, my_number) in result]
         cursor.close()
+        result = sorted(result, key = lambda k: k['my_number'])
         return result
     
     def get_a_months_sales(self, month):
