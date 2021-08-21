@@ -146,6 +146,10 @@ a.mdl-navigation__link:hover{
   background: linear-gradient(to right, #25c481, #25b7c4);
 }
 
+#analytics-layout{
+    background: -webkit-linear-gradient(left, #25c481, #25b7c4);
+    background: linear-gradient(to right, #25c481, #25b7c4);
+}
 
 @import url(https://fonts.googleapis.com/css?family=Roboto:400,500,300,700);
 table{
