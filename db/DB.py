@@ -165,8 +165,8 @@ class DBClass:
         cursor.close()
         count_birthdays = result[0][0]
         if count_birthdays == 0:
-            return True
-        return False
+            return False
+        return True
 
     def get_customer_monthly_discount_sum(self, user_id):
         sql = "SELECT sum(discount_price) FROM orderT \
@@ -304,6 +304,8 @@ if __name__ == "__main__":
     #             'customerID': str(i),
     #             'date': f'2021-{randint(1, 7)}-{randint(1,28)}',
     #             'total_price': str(randint(1,500)),
+    #             'discount_price': '0',
+    #             'birthday_discount_price': '0',
     #         }
     #         db.insert_order(order)
     #     for j in range(randint(1,40)):
@@ -312,6 +314,8 @@ if __name__ == "__main__":
     #             'customerID': str(i),
     #             'date': f'2020-{randint(1, 12)}-{randint(1,28)}',
     #             'total_price': str(randint(1,500)),
+    #             'discount_price': '0',
+    #             'birthday_discount_price': '0',
     #         }
     #         db.insert_order(order)
 
@@ -329,6 +333,8 @@ if __name__ == "__main__":
     #             'customerID': str(i),
     #             'date': f'2021-{randint(1, 5)}-{randint(1,28)}',
     #             'total_price': str(randint(1,500)),
+    #             'discount_price': '0',
+    #             'birthday_discount_price': '0',
     #         }
     #         db.insert_order(order)
     #     for j in range(randint(1, 4)):
@@ -337,6 +343,8 @@ if __name__ == "__main__":
     #             'customerID': str(i),
     #             'date': f'2021-6-{randint(1,28)}',
     #             'total_price': str(randint(1,600)),
+    #             'discount_price': '0',
+    #             'birthday_discount_price': '0',
     #         }
     #         db.insert_order(order)
     #     for j in range(randint(1, 5)):
@@ -345,6 +353,8 @@ if __name__ == "__main__":
     #             'customerID': str(i),
     #             'date': f'2021-7-{randint(1,28)}',
     #             'total_price': str(randint(1,600)),
+    #             'discount_price': '0',
+    #             'birthday_discount_price': '0',
     #         }
     #         db.insert_order(order)
 

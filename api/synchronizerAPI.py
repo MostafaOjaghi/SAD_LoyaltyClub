@@ -21,7 +21,7 @@ class MyHandler(BaseHTTPRequestHandler):
                 self.send_error(400, "wrong parameters")
 
         elif self.path == "/order":
-            if MyHandler.fields_in_params(params, ["orderID", "customerID", "date", "total_price"]):
+            if MyHandler.fields_in_params(params, ["orderID", "customerID", "date", "total_price", "discount_price", "birthday_discount_price"]):
                 self.send_response(200)
                 self.end_headers()
                 # save order to database
