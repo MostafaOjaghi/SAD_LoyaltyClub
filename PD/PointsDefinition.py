@@ -31,6 +31,8 @@ class PointsDefinition:
                 "free shipping": True
             },
         }
+        self.birthday_off = 0.25
+        self.birthday_off_limit = 200
 
     def get_rank(self, score):
         for key in self.ranks:

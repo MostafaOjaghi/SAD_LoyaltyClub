@@ -28,6 +28,8 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
             self.handle_score_parameter(params)
         elif self.path == "/rank":
             self.handle_add_rank(params)
+        elif self.path == "/birthday-parameters":
+            self.handle_birthday_params(params)
         return
 
     def do_DELETE(self):
@@ -330,6 +332,29 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
             self.PD.score_coefficient = score_coefficient
             self.PD.score_period = score_period
             self.PD.max_order_score = max_order_score
+            self.send_response(200)
+            self.end_headers()
+        except:
+            self.send_error(400, "wrong parameters format")
+            print("wrong parameters format")
+
+    def handle_birthday_params(self, params):
+        have_birthday_off = PointsDefinitionHandler.fields_in_params(params, ["birthday_off"])
+        have_birthday_off_limit = PointsDefinitionHandler.fields_in_params(params, ["birthday_off_limit"])
+        total_correct_parameters = have_birthday_off + have_birthday_off_limit
+
+        if len(params) != total_correct_parameters:
+            self.send_error(400, "wrong parameters")
+            print("wrong parameters")
+            return
+        try:
+            birthday_off, birthday_off_limit = self.PD.birthday_off, self.PD.birthday_off_limit
+            if have_birthday_off:
+                birthday_off = float(params["birthday_off"])
+            if have_birthday_off_limit:
+                birthday_off_limit = int(params["birthday_off_limit"])
+            self.PD.birthday_off = birthday_off
+            self.PD.birthday_off_limit = birthday_off_limit
             self.send_response(200)
             self.end_headers()
         except:

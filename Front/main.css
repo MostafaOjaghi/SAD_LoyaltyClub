@@ -131,6 +131,14 @@ a.mdl-navigation__link:hover{
   gap: 15px;
 }
 
+.birthday_form_buttons, .add_birthday_form_buttons{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
+
 #danger_alert, #success_alert{
   position: fixed;
   left: 50%;

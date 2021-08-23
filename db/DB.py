@@ -19,6 +19,7 @@ TABLES['customerT'] = (
     "CREATE TABLE `customerT` ("
     "  `customerID` VARCHAR(30) PRIMARY KEY,"
     "  `email` VARCHAR(255) NOT NULL,"
+    "  `birthday` DATE NOT NULL,"
     "  `score` INTEGER NOT NULL"
     ") ")
 TABLES['orderT'] = (
@@ -59,10 +60,11 @@ class DBClass:
     def insert_customer(self, params):
         id = params['customerID']
         email = params['email']
-        score = 0;
+        birthday = params['birthday']
+        score = 0
 
-        sql = "INSERT INTO customerT (customerID, email, score) VALUES (%s, %s, %s)"
-        val = (id, email, score)
+        sql = "INSERT INTO customerT (customerID, email, birthday, score) VALUES (%s, %s, %s)"
+        val = (id, email, birthday, score)
         cursor = self.cnx.cursor()
         cursor.execute(sql, val)
         self.cnx.commit()
@@ -190,6 +192,7 @@ if __name__ == "__main__":
     # customer = {
     #     'customerID' : '1233',
     #     'email' : 'a@b.c',
+    #     'birthday : '1999-06-02
     #     'score' : '0',
     # }
     # db.insert_customer(customer)
@@ -206,6 +209,7 @@ if __name__ == "__main__":
     #     customer = {
     #         'customerID' : str(i),
     #         'email' : 'a@b.c',
+    #         'birthday' : f'{randint(1970, 2010)}-{randint(1,12)}-{randint(1,28)}'
     #         'score' : '0',
     #     }
     #     db.insert_customer(customer)
@@ -213,7 +217,7 @@ if __name__ == "__main__":
     #         order = {
     #             'orderID': str(1000 * i + j),
     #             'customerID': str(i),
-    #             'date': f'2021-{randint(1, 7)}-{randint(1,25)}',
+    #             'date': f'2021-{randint(1, 7)}-{randint(1,28)}',
     #             'total_price': str(randint(1,500)),
     #         }
     #         db.insert_order(order)

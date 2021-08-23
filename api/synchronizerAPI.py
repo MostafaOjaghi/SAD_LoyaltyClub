@@ -11,7 +11,7 @@ class MyHandler(BaseHTTPRequestHandler):
         post_data = self.rfile.read(content_length)  # <--- Gets the data itself
         params = dict([tuple(s.split("=")) for s in post_data.decode("utf-8").split("&")])
         if self.path == "/customer":
-            if MyHandler.fields_in_params(params, ["email", "customerID"]):
+            if MyHandler.fields_in_params(params, ["email", "customerID", "birthday"]):
                 self.send_response(200)
                 self.end_headers()
                 params["email"] = params["email"].replace("%40", "@")

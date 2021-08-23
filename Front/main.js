@@ -173,6 +173,41 @@ function submite_score_form() {
   })
 }
 
+function submite_birthday_form() {
+  close_alert()
+  let birthday_form = document.forms["birthday_form"];
+  birthday_off = birthday_form["birthday_off_input"].value
+  birthday_off_limit = birthday_form["birthday_off_limit_input"].value
+  let data = [birthday_off ? `birthday_off=${birthday_off}` : "", birthday_off_limit ? `birthday_off_limit=${birthday_off_limit}` : ""]
+  data = data.filter(x => x != "").join("&")
+  var request = {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8' },
+    body: data
+  };
+  fetch(PD_API_URL + "/birthday-parameters", request).then(function (response) {
+    stat = response.status
+    if (stat == 200) {
+      // location.replace(url)
+      elem = document.getElementById("success_alert")
+      document.getElementById("success_message").innerHTML = "parameters changes successfuly."
+      elem.style.opacity = "1";
+      elem.style.visibility = "visible";
+      console.log("parameters changed")
+      birthday_form.reset()
+
+    } else {
+      elem = document.getElementById("danger_alert")
+      elem.style.opacity = "1";
+      elem.style.visibility = "visible";
+      document.getElementById("error_message").innerHTML = response.statusText
+      console.log(response.statusText)
+    }
+  }).catch(function (error) {
+    console.log("Error: " + error);
+  })
+}
+
 function close_alert() {
   document.getElementById("danger_alert").style.opacity = "0";
   document.getElementById("danger_alert").style.visibility = "hidden";
