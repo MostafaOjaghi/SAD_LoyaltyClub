@@ -28,6 +28,8 @@ TABLES['orderT'] = (
     "  `customerID` VARCHAR(30) NOT NULL,"
     "  `date` DATE NOT NULL,"
     "  `total_price` INTEGER NOT NULL,"
+    "  `discount_price` INTEGER NOT NULL,"
+    "  `birthday_discount_price` INTEGER NOT NULL,"
     " FOREIGN KEY (customerID) REFERENCES customerT (customerID)"
     ") ")
 
@@ -75,9 +77,12 @@ class DBClass:
         customer_id = params['customerID']
         date = params['date']
         total_price = params['total_price']
+        discount_price = params['discount_price']
+        birthday_discount_price = params['birthday_discount_price']
 
-        sql = "INSERT INTO orderT (orderID, customerID, date, total_price) VALUES (%s, %s, %s, %s)"
-        val = (order_id, customer_id, date, total_price)
+        sql = "INSERT INTO orderT (orderID, customerID, date, total_price,\
+                discount_price, birthday_discount_price) VALUES (%s, %s, %s, %s, %s, %s)"
+        val = (order_id, customer_id, date, total_price, discount_price, birthday_discount_price)
         cursor = self.cnx.cursor()
         cursor.execute(sql, val)
         self.cnx.commit()
@@ -148,6 +153,45 @@ class DBClass:
         if not sum:
             sum = 0
         return int(sum)
+
+    def is_customer_birthbay (self, user_id):
+        sql = "select count(*) FROM customerT \
+                WHERE (customerT.customerID = %s) AND (customerT.birthday = CURDATE())"
+        val = (user_id,)
+        cursor = self.cnx.cursor()
+        cursor.execute(sql, val)
+        result = cursor.fetchall()
+        cursor.close()
+        count_birthdays = result[0][0]
+        if count_birthdays == 0:
+            return false
+        return true
+
+    def get_customer_monthly_discount_sum(self, user_id):
+        sql = "SELECT sum(discount_price) FROM orderT \
+                WHERE customerID = %s AND date >= DATE_SUB( CURDATE(), INTERVAL 1 MONTH )"
+        val = (user_id,)
+        cursor = self.cnx.cursor()
+        cursor.execute(sql, val)
+        result = cursor.fetchall()
+        cursor.close()
+        sum = result[0][0]
+        if not sum:
+            sum = 0
+        return sum
+    
+    def get_customer_birthday_discount_sum(self, user_id):
+        sql = "SELECT sum(birthday_discount_price) FROM orderT \
+        WHERE customerID = %s AND date = CURDATE()"
+        val = (user_id,)
+        cursor = self.cnx.cursor()
+        cursor.execute(sql, val)
+        result = cursor.fetchall()
+        cursor.close()
+        sum = result[0][0]
+        if not sum:
+            sum = 0
+        return sum
 
     def get_userIDs(self):
         sql = 'SELECT customerID FROM customerT'
