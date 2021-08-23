@@ -57,6 +57,9 @@ window.onload = function () {
               title: {
                 text: "number of customers - per number of orders"
               },
+              toolTip: {
+                shared: true
+              },
               data: [
                 {
                   type: "line",
