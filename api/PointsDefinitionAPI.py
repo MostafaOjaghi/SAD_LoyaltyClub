@@ -95,6 +95,8 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
             self.handle_customer_ids(params)
         elif self.path == "/rank-info":
             self.handle_rank_info(params)
+        elif self.path == "/off-info":
+            self.handle_off_info(params)
         elif self.path == "/rank":
             self.handle_rank(params)
         return
@@ -112,6 +114,24 @@ class PointsDefinitionHandler(BaseHTTPRequestHandler):
         post_data = self.rfile.read(content_length)  # <--- Gets the data itself
         params = dict([tuple(s.split("=")) for s in post_data.decode("utf-8").split("&")])
         return params
+
+    def handle_off_info(self, params):
+        if PointsDefinitionHandler.fields_in_params(params, ["customer_ids"]):
+            if len(params) > 1:
+                self.send_error(400, "too many parameters")
+                print("too many parameters")
+            else:
+                customer_ids = urllib.parse.unquote(params["customer_ids"])
+                customer_ids = ast.literal_eval(customer_ids)
+                off_info = self.PD.get_users_offs(customer_ids)
+                self.send_response(200)
+                self.send_header('Content-Type', 'application/json')
+                self.end_headers()
+                json_string = json.dumps(off_info)
+                self.wfile.write(bytes(json_string, 'utf-8'))
+        else:
+            self.send_error(400, "wrong parameter")
+            print("wrong parameter")
 
     def handle_annual_income(self):
         sales = self.PD.get_last_years_sales()

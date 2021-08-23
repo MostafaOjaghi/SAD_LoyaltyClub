@@ -11,6 +11,7 @@ Original file is located at
 
 import mysql.connector
 from mysql.connector import errorcode
+from random import randint
 
 DB_NAME = 'SADProject'
 
@@ -164,8 +165,8 @@ class DBClass:
         cursor.close()
         count_birthdays = result[0][0]
         if count_birthdays == 0:
-            return false
-        return true
+            return True
+        return False
 
     def get_customer_monthly_discount_sum(self, user_id):
         sql = "SELECT sum(discount_price) FROM orderT \
@@ -230,63 +231,61 @@ class DBClass:
 
 
 if __name__ == "__main__":
-    from random import randint
     db = DBClass()
 
-     customer = {
-         'customerID' : '001',
-         'email' : 'a@b.c',
-         'birthday : '1999-08-24',
-         'score' : '0',
-     }
-     db.insert_customer(customer)
-
-     order = {
-         'orderID': '101',
-         'customerID': '001',
-         'date': '2020-08-24',
-         'total_price': '12',
-         'discount_price': '0',
-         'birthday_discount_price': '6',
-     }
-     db.insert_order(order)
-
-     customer = {
-         'customerID' : '002',
-         'email' : 'aa@b.c',
-         'birthday : '1999-06-02',
-         'score' : '0',
-     }
-     db.insert_customer(customer)
-         
-     order = {
-         'orderID': '102',
-         'customerID': '002',
-         'date': '2020-08-02',
-         'total_price': '12',
-         'discount_price': '1',
-         'birthday_discount_price': '0',
-     }
-     db.insert_order(order)
-
-    customer = {
-        'customerID' : '003',
-        'email' : 'aaa@b.c',
-        'birthday : '1999-08-24',
-        'score' : '0',
-    }
-    db.insert_customer(customer)
-                        
-    order = {
-        'orderID': '103',
-        'customerID': '003',
-        'date': '2020-08-24',
-        'total_price': '12',
-        'discount_price': '0',
-        'birthday_discount_price': '0',
-    }
-    db.insert_order(order)
-
+    # customer = {
+    #      'customerID' : '001',
+    #      'email' : 'a@b.c',
+    #      'birthday' : '1999-08-24',
+    #      'score' : '0',
+    # }
+    # db.insert_customer(customer)
+    #
+    # order = {
+    #      'orderID': '101',
+    #      'customerID': '001',
+    #      'date': '2020-08-24',
+    #      'total_price': '12',
+    #      'discount_price': '0',
+    #      'birthday_discount_price': '6',
+    #  }
+    # db.insert_order(order)
+    #
+    # customer = {
+    #      'customerID' : '002',
+    #      'email' : 'aa@b.c',
+    #      'birthday' : '1999-06-02',
+    #      'score' : '0',
+    # }
+    # db.insert_customer(customer)
+    #
+    # order = {
+    #      'orderID': '102',
+    #      'customerID': '002',
+    #      'date': '2020-08-02',
+    #      'total_price': '12',
+    #      'discount_price': '1',
+    #      'birthday_discount_price': '0',
+    #  }
+    # db.insert_order(order)
+    #
+    # customer = {
+    #     'customerID' : '003',
+    #     'email' : 'aaa@b.c',
+    #     'birthday' : '1999-08-24',
+    #     'score' : '0',
+    # }
+    # db.insert_customer(customer)
+    #
+    # order = {
+    #     'orderID': '103',
+    #     'customerID': '003',
+    #     'date': '2020-08-24',
+    #     'total_price': '12',
+    #     'discount_price': '0',
+    #     'birthday_discount_price': '0',
+    # }
+    # db.insert_order(order)
 
 # for i in range(100):
 

@@ -60,7 +60,7 @@ class PointsDefinition:
         ranks = {}
         for id in userIDs:
             for i in range(len(user_scores)):
-                if user_scores[i][0] == id:
+                if user_scores[i][0] == str(id):
                     ranks[id] = i
                     break
         return ranks
@@ -93,21 +93,18 @@ class PointsDefinition:
             customer_purchases_last_months.append(self.db.get_number_of_customer_purchases(month))
         return customer_purchases_last_months
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    def get_users_offs(self, userIDS):
+        result = {}
+        for userid in userIDS:
+            result[userid] = {}
+            if self.db.is_customer_birthbay(userid):
+                print('{} birthday is today'.format(userid))
+                result[userid]["off"] = self.birthday_off
+                result[userid]["remaining credit"] = \
+                    self.birthday_off_limit - self.db.get_customer_birthday_discount_sum(userid)
+            else:
+                user_rank = self.get_rank_info([userid])[userid]
+                result[userid]["off"] = user_rank["off"]
+                result[userid]["remaining credit"] = \
+                    user_rank["monthly limit"] - self.db.get_customer_monthly_discount_sum(userid)
+        return result
