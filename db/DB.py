@@ -236,7 +236,7 @@ if __name__ == "__main__":
      customer = {
          'customerID' : '001',
          'email' : 'a@b.c',
-         'birthday : '1999-06-02',
+         'birthday : '1999-08-24',
          'score' : '0',
      }
      db.insert_customer(customer)
@@ -244,7 +244,7 @@ if __name__ == "__main__":
      order = {
          'orderID': '101',
          'customerID': '001',
-         'date': '2020-06-02',
+         'date': '2020-08-24',
          'total_price': '12',
          'discount_price': '0',
          'birthday_discount_price': '6',
@@ -280,7 +280,7 @@ if __name__ == "__main__":
     order = {
         'orderID': '103',
         'customerID': '003',
-        'date': '2020-08-02',
+        'date': '2020-08-24',
         'total_price': '12',
         'discount_price': '0',
         'birthday_discount_price': '0',
