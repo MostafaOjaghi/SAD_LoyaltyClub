@@ -156,7 +156,7 @@ class DBClass:
 
     def is_customer_birthbay (self, user_id):
         sql = "select count(*) FROM customerT \
-                WHERE (customerT.customerID = %s) AND (customerT.birthday = CURDATE())"
+                WHERE (customerT.customerID = %s) AND DATE_FORMAT(birthday,'%m-%d') = DATE_FORMAT(NOW(),'%m-%d')"
         val = (user_id,)
         cursor = self.cnx.cursor()
         cursor.execute(sql, val)
@@ -233,21 +233,63 @@ if __name__ == "__main__":
     from random import randint
     db = DBClass()
 
-    # customer = {
-    #     'customerID' : '1233',
-    #     'email' : 'a@b.c',
-    #     'birthday : '1999-06-02
-    #     'score' : '0',
-    # }
-    # db.insert_customer(customer)
+     customer = {
+         'customerID' : '001',
+         'email' : 'a@b.c',
+         'birthday : '1999-06-02',
+         'score' : '0',
+     }
+     db.insert_customer(customer)
 
-    # order = {
-    #     'orderID': '001',
-    #     'customerID': '1233',
-    #     'date': '2021-6-11',
-    #     'total_price': '12',
-    # }
-    # db.insert_order(order)
+     order = {
+         'orderID': '101',
+         'customerID': '001',
+         'date': '2020-06-02',
+         'total_price': '12',
+         'discount_price': '0',
+         'birthday_discount_price': '6',
+     }
+     db.insert_order(order)
+
+     customer = {
+         'customerID' : '002',
+         'email' : 'aa@b.c',
+         'birthday : '1999-06-02',
+         'score' : '0',
+     }
+     db.insert_customer(customer)
+         
+     order = {
+         'orderID': '102',
+         'customerID': '002',
+         'date': '2020-08-02',
+         'total_price': '12',
+         'discount_price': '1',
+         'birthday_discount_price': '0',
+     }
+     db.insert_order(order)
+
+    customer = {
+        'customerID' : '003',
+        'email' : 'aaa@b.c',
+        'birthday : '1999-08-24',
+        'score' : '0',
+    }
+    db.insert_customer(customer)
+                        
+    order = {
+        'orderID': '103',
+        'customerID': '003',
+        'date': '2020-08-02',
+        'total_price': '12',
+        'discount_price': '0',
+        'birthday_discount_price': '0',
+    }
+    db.insert_order(order)
+
+
+# for i in range(100):
+
 
     # for i in range(100):
     #     customer = {
