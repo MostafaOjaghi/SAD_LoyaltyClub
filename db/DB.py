@@ -63,7 +63,7 @@ class DBClass:
         birthday = params['birthday']
         score = 0
 
-        sql = "INSERT INTO customerT (customerID, email, birthday, score) VALUES (%s, %s, %s)"
+        sql = "INSERT INTO customerT (customerID, email, birthday, score) VALUES (%s, %s, %s, %s)"
         val = (id, email, birthday, score)
         cursor = self.cnx.cursor()
         cursor.execute(sql, val)
@@ -205,20 +205,61 @@ if __name__ == "__main__":
     # }
     # db.insert_order(order)
 
-    # for i in range(10):
+    # for i in range(100):
     #     customer = {
     #         'customerID' : str(i),
     #         'email' : 'a@b.c',
-    #         'birthday' : f'{randint(1970, 2010)}-{randint(1,12)}-{randint(1,28)}'
+    #         'birthday' : f'{randint(1970, 2010)}-{randint(1,12)}-{randint(1,28)}',
     #         'score' : '0',
     #     }
     #     db.insert_customer(customer)
-    #     for j in range(randint(5,25)):
+    #     for j in range(randint(1,30)):
     #         order = {
-    #             'orderID': str(1000 * i + j),
+    #             'orderID': str(100 * i + j),
     #             'customerID': str(i),
     #             'date': f'2021-{randint(1, 7)}-{randint(1,28)}',
     #             'total_price': str(randint(1,500)),
+    #         }
+    #         db.insert_order(order)
+    #     for j in range(randint(1,40)):
+    #         order = {
+    #             'orderID': str(100 * i + j + 1000000),
+    #             'customerID': str(i),
+    #             'date': f'2020-{randint(1, 12)}-{randint(1,28)}',
+    #             'total_price': str(randint(1,500)),
+    #         }
+    #         db.insert_order(order)
+
+    # for i in range(2000):
+    #     customer = {
+    #         'customerID' : str(i),
+    #         'email' : 'a@b.c',
+    #         'birthday' : f'{randint(1970, 2010)}-{randint(1,12)}-{randint(1,28)}',
+    #         'score' : '0',
+    #     }
+    #     db.insert_customer(customer)
+    #     for j in range(randint(1,15)):
+    #         order = {
+    #             'orderID': str(100 * i + j),
+    #             'customerID': str(i),
+    #             'date': f'2021-{randint(1, 5)}-{randint(1,28)}',
+    #             'total_price': str(randint(1,500)),
+    #         }
+    #         db.insert_order(order)
+    #     for j in range(randint(1, 4)):
+    #         order = {
+    #             'orderID': str(100 * i + j + 1000000),
+    #             'customerID': str(i),
+    #             'date': f'2021-6-{randint(1,28)}',
+    #             'total_price': str(randint(1,600)),
+    #         }
+    #         db.insert_order(order)
+    #     for j in range(randint(1, 5)):
+    #         order = {
+    #             'orderID': str(100 * i + j + 2000000),
+    #             'customerID': str(i),
+    #             'date': f'2021-7-{randint(1,28)}',
+    #             'total_price': str(randint(1,600)),
     #         }
     #         db.insert_order(order)
 
